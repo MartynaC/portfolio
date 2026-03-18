@@ -1,0 +1,831 @@
+//Here you can customize bootstrap
+$primary: #CA3142;
+@import "~bootstrap/scss/bootstrap";
+
+
+body {
+  background-color: $primary;
+  color: whitesmoke;
+}
+a {
+  color: whitesmoke;
+}
+.sticky {
+    position: fixed;
+}
+.scrollable-content {
+position: absolute;
+    left: 25%;
+    .theBreak {
+      height: 200px;
+    }
+}
+img.logo {
+  margin-left: 50px;
+  margin-top: 50px;
+}
+img.hidden-link {
+    position: absolute;
+    top: 30px;
+    left: 50px;
+    opacity: 0;
+}
+canvas.logo-canvas {
+  position: fixed;
+  top: 0;
+  left: 25px;
+}
+.navbar {
+  top: 100px;
+  left: 50px;
+}
+div.grid-img {
+  border: 4px solid transparent;
+  opacity: 0.99;
+  a{
+    text-decoration: none;
+    }
+div.gradient-making {
+  position: relative;
+  max-height: 100%;
+}
+    
+}
+
+div.project-short-desc {
+  background-color: #ffeaea;
+  color: whitesmoke;
+  font-family: "Nunito Sans";
+  font-weight: 200;
+  padding: 20px;
+  padding-bottom: 10px;
+  opacity: 1;
+  bottom: 0px;
+  z-index: 9999;
+  position: absolute;
+  border: 1px solid whitesmoke;
+  width: 97%;
+  animation-name: description;
+  animation-duration: 300ms;
+  height: 100%;
+  display: none;
+  h3 {
+    font-size: 16px;
+    font-weight: 200;
+    font-family: 'Nunito Sans';
+    padding-left: 0px;
+  }
+  p {
+    font-size: 14px;
+    font-weight: 200;
+    font-family: 'Nunito Sans';
+    padding-left: 0px;
+    margin-bottom: 0px;
+  }
+}
+@keyframes description {
+  from {height: 0px;}
+  to {height: 100%;}
+}
+
+
+.img-fluid:hover + div.project-short-desc, .img-fluid:focus + div.project-short-desc, .img-fluid:active + div.project-short-desc {
+
+
+  display: block;
+}
+div.project-short-desc:focus, .project-short-desc:active, .project-short-desc:hover {
+
+  display: block;
+}
+div.grid-img {
+ 
+}
+div.gradient-making {
+  padding: 10px;
+  img {
+  border: 0.5px solid whitesmoke;
+}
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: $primary;
+a.dropdown-item {
+  color: whitesmoke;
+    text-decoration: none;
+    font-weight: 300;
+    line-height: 25px;
+    padding-left: 30px;
+}
+.btn.dropdown-toggle {
+  text-transform: uppercase;
+    font-size: 18px;
+    padding: 0px;
+    padding-top: 4px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-left:30px;
+
+}
+.dropup .dropdown-toggle::after {
+  display: none;
+}
+.bottom-nav a {
+  font-size: 20px;
+  text-transform: uppercase;
+}
+}
+
+.bottom-nav ul {
+  line-height: 30px;
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  font-family: 'Nunito Sans';
+  background-color: $primary;
+  text-transform: uppercase;
+  border-top: 1px solid whitesmoke;
+  padding-right: 10px;
+  padding-left: 30px;
+  letter-spacing: 1px;
+}
+
+.bottom-nav li {
+  font-size: 18px;
+  margin-top: 3px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.bottom-nav a {
+  color: whitesmoke;
+  text-decoration: none;
+  font-weight: 300;
+}
+.bottom-nav li {
+  position: relative;
+}
+
+.bottom-nav .dropdown-menu {
+  top: auto;
+    bottom: 100%;
+    margin-bottom: 0px;
+    width: 100vw;
+    padding-top: 15px;
+    background-color: $primary;
+    border: none;
+    border-top: 1px solid whitesmoke;
+    border-radius: 0px;
+}
+
+
+ul.main-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    color: whitesmoke;
+    text-align: left;
+    left: 0;
+    position: relative;
+    font-size: 15px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    letter-spacing: 1px;
+    li a {
+        display: block;
+        color: whitesmoke;
+        text-align: left;
+        text-decoration: none;
+        font-family: 'Lato', sans-serif;
+        font-weight: 200;
+    }
+    .dropdown-menu-right {
+      background-color: transparent;
+      border: none;
+      position: inherit;
+    }
+    .dropdown-toggle::after {
+      display: none;
+    }
+    .dropdown-item:hover, .dropdown-item:focus {
+      background-color: transparent;
+    }
+}
+p.sticky-bottom {
+  position: fixed;
+  left: 50px;
+  font-family: 'Nunito Sans';
+  font-size: 12px;
+}
+
+.scroll-words {
+  position: fixed;
+  left: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 160px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scroll-words-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: transform 0.35s ease;
+}
+
+.scroll-word {
+  display: block;
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 300;
+  opacity: 0;
+  animation: scroll-word-in 0.35s ease forwards;
+}
+
+@keyframes scroll-word-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.mobile-scroll-header {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .mobile-scroll-header {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 25px;
+    background-color: $primary;
+    overflow: hidden;
+    z-index: 10000;
+    pointer-events: none;
+  }
+
+  .mobile-scroll-inner {
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
+    padding: 0 30px;
+    white-space: nowrap;
+    transition: transform 0.35s ease;
+  }
+
+  .mobile-scroll-word {
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    color: whitesmoke;
+    opacity: 0;
+    animation: scroll-word-in 0.35s ease forwards;
+  }
+}
+/* homepage */
+
+section.tetra-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 60vh;
+}
+
+div.welcome {
+  text-align: left;
+    padding-left: 20px;
+h1 {
+  font-family: "Nunito Sans";
+  font-weight: 300;
+  font-size: 28px;
+}
+}
+
+
+video.homepagevideo {
+  max-width: 70%;
+  text-align: left;
+  float: left;
+  margin-left: 20px;
+}
+div.tag-table-cell {
+border: 1px solid black;
+    padding: 0px;
+    max-height: 40px;
+    display: flex;
+    button {
+        font-size: 12px;
+        font-weight: 400;
+        color: whitesmoke;
+        font-family: 'Nunito Sans';
+        letter-spacing: 1px;
+    }
+    .triangle-down {
+        width: 0;
+        height: 0;
+        border-left: 25px solid transparent;
+        border-right: 25px solid transparent;
+        border-top: 50px solid whitesmoke;
+      }
+      .heart {
+        /* Modify size here: */
+        --size: 20px;
+      
+        position: relative;
+        width: var(--size);
+        height: calc(var(--size) * 0.3);
+      }
+      
+      .heart:before,
+      .heart:after {
+        position: absolute;
+        content: "";
+        left: calc(var(--size) * 0.55);
+        top: 0;
+        width: calc(var(--size) * 0.55);
+        height: calc(var(--size) * 0.85);
+        background: whitesmoke;
+        border-radius: calc(var(--size) * 0.55) calc(var(--size) * 0.55) 0 0;
+        transform: rotate(-45deg);
+        transform-origin: 0 100%;
+      }
+      
+      .heart:after {
+        left: 0;
+        transform: rotate(45deg);
+        transform-origin: 100% 100%;
+      }
+      
+}
+div.tags-list {
+      display: inline-flex;
+      /* border: 1px solid; */
+      position: initial;
+      width: 100%;
+      left: 0%;
+      top: -22px;
+      background-color: #ffeaea;
+}
+div.tag-table-cell {
+  display: contents;
+  button {
+    border: 1px solid black;
+    border-radius: 0px;
+  }
+}
+
+div.image-grid {
+  --bs-gutter-x: 0px;
+  --bs-gutter-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: -5px;
+  div.col-sm-6, .col-sm-12 {
+    padding: 0px;
+  }
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+
+/* PROJECTS PAGES */
+
+div.back-btn {
+  bottom: 20px;
+  position: fixed;
+  right: 50px;
+  a {
+  margin-left: 20px;
+  text-decoration: none;
+  font-size: 10px;
+  float: right;
+  font-family: 'Nunito Sans';
+}
+}
+div.row.page-description {
+  div {
+    padding: 0px;
+  }
+  border-top: 1px solid whitesmoke;
+  padding-top: 20px;
+  margin-left: 20px;
+  margin-top: 235px;
+  h1 {
+    font-size: 23px;
+    font-weight: 200;
+    font-family: 'Nunito Sans';
+    padding-left: 0px;
+    letter-spacing: 1px;
+  }
+  p {
+    font-size: 23px;
+    line-height: 30px;
+    letter-spacing: 1px;
+    font-weight: 200;
+    font-family: 'Nunito Sans';
+    padding-left: 0px;
+    white-space: pre-line;  
+    vertical-align: bottom;
+  }
+  .project-data {
+    padding-left: 20px;
+    margin-top: 20px;
+  p {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 200;
+    font-family: 'Nunito Sans';
+    padding-left: 0px;
+    white-space: pre-line;  
+    vertical-align: bottom;
+  }
+}
+}
+div.creative div.row.page-description h1, div.commercial div.row.page-description h1, div.about-page div.row.page-description h1, div.contact-page div.row.page-description h1 {
+  font-size: 40px;
+}
+div.row.home.page-description {
+  margin-top: 0px;
+}
+
+img.project-main {
+  max-width: 650px;
+  width: 100%;
+}
+
+div.img-fluid.project-main  {
+  height: auto!important;
+}
+
+
+
+/* WEBGL TILES — 3D box */
+
+// Let tiles float outside their grid cell
+div.grid-img,
+div.gradient-making {
+  overflow: visible;
+}
+
+// Outer wrapper — provides the perspective context and catches mouse events
+.webgl-tile-wrapper {
+  perspective: 3000px;
+  cursor: crosshair;
+  --wt-depth: 260px;
+}
+
+// The animated box — receives the floating + rotation transform each frame
+.webgl-tile-box {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+// ── Face base ───────────────────────────────────────────────────────
+.wt-face {
+  position: absolute;
+  inset: 0;
+}
+
+// Front face: pushed toward viewer, holds the image + WebGL canvas
+.wt-front {
+  position: relative;   // drives the box height from the image
+  transform: translateZ(var(--wt-depth));
+  transform-style: preserve-3d;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+// Back face: flipped so content reads correctly when viewed from behind
+.wt-back {
+  background: #111;
+  transform: rotateY(180deg);
+  overflow: hidden;
+
+  video, img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+// Left face: depth-wide, hinges at the left edge — shows description
+.wt-left {
+  inset: unset;
+  top: 0; left: 0;
+  width: var(--wt-depth); height: 100%;
+  background: #CA3142;
+  transform-origin: left center;
+  transform: rotateY(-90deg);
+  overflow: hidden;
+}
+
+// Right face: hinges at the right edge — shows project data
+.wt-right {
+  inset: unset;
+  top: 0; right: 0;
+  width: var(--wt-depth); height: 100%;
+  background: #CA3142;
+  transform-origin: right center;
+  transform: rotateY(90deg);
+  overflow: hidden;
+}
+
+.wt-right-content {
+  padding: 24px 20px;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-sizing: border-box;
+
+  .wt-stack {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 17px;
+    letter-spacing: 0.5px;
+    color: whitesmoke;
+    margin-bottom: 10px;
+  }
+
+  a {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    color: whitesmoke;
+    text-decoration: none;
+    word-break: break-all;
+    margin-bottom: 8px;
+    display: block;
+    &:hover { text-decoration: underline; }
+  }
+
+  .wt-date {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: whitesmoke;
+    margin-bottom: 0;
+  }
+}
+
+// WebGL canvas overlays the front face
+.webgl-tile-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+// ── Left face content (project description) ──────────────────────
+.wt-left-content {
+  padding: 24px 20px;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-sizing: border-box;
+
+  h3 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    color: whitesmoke;
+    text-transform: uppercase;
+  }
+
+  p {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 200;
+    line-height: 17px;
+    letter-spacing: 0.5px;
+    color: whitesmoke;
+    margin-bottom: 6px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+  }
+}
+
+/* VIDEO WALL */
+
+.video-wall {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.video-wall-item {
+  width: 100%;
+  line-height: 0;
+
+  video,
+  iframe {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  iframe {
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
+}
+
+/* ABOUT PAGE */
+
+.about-page {
+  div.left-column {
+    padding-left: 32px;
+    ul{
+      padding-left: 0px;
+    }
+  }
+  div.right-column {
+    padding-left: 35px;
+    ul{
+      padding-left: 0px;
+    }
+  }
+  h1 {
+    margin-bottom: 35px;
+  } 
+  p {
+    letter-spacing: 1px;
+  }
+  div.row.page-description p, p, ul {
+  font-family: 'Nunito Sans';
+  font-size: 16px;
+  font-weight: 200;
+  list-style-type: none;
+}
+
+}
+
+/* CONTACT PAGE */
+
+div.contact-page {
+  a {
+    text-decoration: none;
+  }
+}
+
+/* MOBILE */
+
+
+
+@media only screen and (max-width: 768px) {
+  p {padding-right: 10px;}
+  .scrollable-content {
+    position: relative;
+    left: 0px;
+    top: 180px;
+  }
+  .navbar {
+    top: 0px;
+    ul.main-menu {
+      font-size: 16px;
+    }
+  }
+  img.hidden-link {
+    display: none;
+  }
+  .fixed-top {
+    top: 20px;
+    left: 30px;
+  }
+  .mobile-logo {
+    max-height: 23px;
+    margin-right: 10px;
+  }
+  canvas.logo-canvas {
+    display: none;
+  }
+  .absolute-top{
+    left:30px;
+    top:10px;
+    position: absolute;
+   p {
+    font-family: "Nunito Sans";
+    font-size: 12px;
+  }
+  }
+  div.row.page-description {
+    margin-top: 0px;
+  }
+  canvas.logo-canvas {
+    top: 5px;
+    position: absolute;
+  }
+  div.welcome {
+    padding-top: 0px;
+    height: 80px;
+    h1 {
+      font-size: 23px;
+
+    }
+  }
+  div.tags-list {
+    display: contents;
+    button {
+    margin-bottom: 10px;
+    }
+  }
+  div.container.commercial,  div.container.creative {
+    padding-bottom: 100px;
+  }
+  div.row.page-description {
+  div.project-data {
+         padding-left: 0px;
+        padding-top: 20px;
+        padding-bottom: 100px;
+  }
+}
+div.contact-page {
+  div.row.page-description h1 {
+  font-size: 23px;
+  }
+  a {
+    text-decoration: none;
+    font-size: 18px;
+  }
+}
+.about-page { 
+padding-bottom: 100px;
+}
+div.creative div.row.page-description h1, div.creative div.row.page-description .h1, div.commercial div.row.page-description h1, div.about-page div.row.page-description h1 {
+  font-size: 30px
+}
+video.img-fluid, img.img-fluid.project-main {
+ padding-right: 10px;
+}
+div.img-fluid.project-main  {
+  padding-right: 10px!important;
+}
+div.project-short-desc {
+  background-color: #ffeaea;
+  color: whitesmoke;
+  font-family: "Nunito Sans";
+  font-weight: 200;
+  padding: 20px;
+  padding-bottom: 10px;
+  opacity: 1;
+  bottom: 0px;
+  z-index: 9999;
+  position: relative;
+  border: 1px solid whitesmoke;
+  border-top: 0px;
+  width: 100%;
+  animation-name: description;
+  animation-duration: 300ms;
+  height: 100%;
+  /* opacity: 0.9; */
+   display: block;
+}
+div.back-btn {
+  position: relative;
+  left: -20px;
+  float: left;
+  padding-top: 35px;
+  a{
+    padding-top: 35px;
+  }
+}
+.dropdown-item:focus, .dropdown-item:hover{
+  background-color: none;
+}
+}

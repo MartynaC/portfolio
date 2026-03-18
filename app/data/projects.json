@@ -1,0 +1,393 @@
+[
+  {
+    "id": 1,
+    "title": "Bombraid.com",
+    "category": [
+      "react js"
+    ],
+    "role": "developer",
+    "description": "The guide about how to prepare a cellar as a shelter in case of a bombraid - developed voluntarily as a quick response to the war in Ukraine.",
+    "stack": "#reactjs #scss #figma #probono",
+    "image": "/images/bombraid2.png",
+    "link": "/project/commercial/bombraid",
+    "slug": "commercial/bombraid",
+    "video": "/videos/Bombraid.mp4",
+    "gif": "",
+    "externalLink": "",
+    "date": ""
+  },
+  {
+    "id": 4,
+    "title": "Exlibris",
+    "category": [
+      "applications"
+    ],
+    "role": "",
+    "description": "The project for Musuem Łazienki Królewskie, where the user can generate his own custom exlibris for books in a style inspired by paintings from the White House in Museum Łazienki Królewskie.",
+    "stack": "HTML5 | SCSS | Javascript | PHP",
+    "image": "/images/exlibris.png",
+    "link": "/project/commercial/exlibris",
+    "slug": "commercial/exlibris",
+    "video": "",
+    "gif": "/videos/Ekslibris.gif",
+    "externalLink": "https://ekslibris.lazienki-krolewskie.pl/",
+    "date": "2020"
+  },
+  {
+    "id": 5,
+    "title": "Leica Store Warsaw",
+    "category": [
+      "e-commerce"
+    ],
+    "role": "developer, e-commerce administrator",
+    "description": "The store for Leica Store Warsaw - that distributes Leica cameras and lenses in Poland and runs workshops for photographers as well as Leica Gallery. I am responsible for the development and constant maintenance of this store since 2021.",
+    "stack": "Wordpress | HTML5 | SCSS | Javascript",
+    "image": "/images/leica.png",
+    "link": "/project/commercial/leica-store-warsaw",
+    "slug": "commercial/leica-store-warsaw",
+    "video": "",
+    "gif": "/videos/LeicaStore.gif",
+    "externalLink": "https://leicastore.pl/",
+    "date": "2021"
+  },
+  {
+    "id": 9,
+    "title": "Leica Street Photo",
+    "category": [
+      "wordpress cms"
+    ],
+    "role": "developer, competition administrator",
+    "description": "A competition website for Leica Street Photo. Tens of thousands of photos get submitted every year.",
+    "stack": "Wordpress | HTML5 | SCSS | Javascript",
+    "image": "/images/lsf.png",
+    "link": "/project/commercial/leica-street-photo",
+    "slug": "commercial/leica-street-photo",
+    "video": "/videos/lsf.mp4",
+    "gif": "",
+    "externalLink": "https://leicastreetphoto.pl/",
+    "date": "2020, 2021, 2022"
+  },
+  {
+    "id": 2,
+    "title": "Dział zagraniczny",
+    "category": [
+      "wordpress cms"
+    ],
+    "role": "developer, project manager",
+    "description": "The website created for the podcaster who is inviting journalist and expert guests reporting from all over the world. It is a news portal, where the user can find foreign affairs, politics, economy, culture, and science news.",
+    "stack": "Wordpress | HTML5 | SCSS | Javascript",
+    "image": "/images/dzialzagraniczny.png",
+    "link": "/project/commercial/dzial-zagraniczny",
+    "slug": "commercial/dzial-zagraniczny",
+    "video": "",
+    "gif": "/videos/dzialzagraniczny.gif",
+    "externalLink": "https://dzialzagraniczny.pl/",
+    "date": "2022"
+  },
+  {
+    "id": 3,
+    "title": "Kiss Dental Care",
+    "category": [
+      "wordpress cms"
+    ],
+    "role": "developer, project manager",
+    "description": "The website for innovative dental clinic we created from scratch, together with the web designer and my co-worker in Studio Materie. The clinic is actively expanding so we put a lot of effort into creating a website that will be easy and intuitive to maintain and update in the future.",
+    "stack": "Wordpress | HTML5 | SCSS | Javascript | ACF",
+    "image": "/images/kissdentalcare.png",
+    "link": "/project/commercial/kiss-dental-care",
+    "slug": "commercial/kiss-dental-care",
+    "video": "",
+    "gif": "/videos/kiss.gif",
+    "externalLink": "https://kissdental.care/",
+    "date": "2022"
+  },
+  {
+    "id": 6,
+    "title": "Uzdrowisko",
+    "category": [
+      "react js"
+    ],
+    "role": "developer, project manager",
+    "description": "The simple portfolio page for yoga teacher and chinese medicine practitioner, created with Wordpress and Reactpress.",
+    "stack": "React JS | Reactpress | Wordpress | HTML5 | SCSS",
+    "image": "/images/uzdrowisko.png",
+    "link": "/project/commercial/uzdrowisko",
+    "slug": "commercial/uzdrowisko",
+    "video": "",
+    "gif": "",
+    "externalLink": "https://uzdrowisko-akupunktura.pl/",
+    "date": "2022"
+  },
+  {
+    "id": 17,
+    "title": "Metamorfozy",
+    "category": [
+      "applications"
+    ],
+    "role": "developer, project manager",
+    "description": "Application made for Touchmonitor found in the White House of Łazienki Królewskie Park.",
+    "stack": "#android-studio #java #interactive-kiosk",
+    "image": "/images/metamorfozy.png",
+    "link": "/project/commercial/metamorfozy",
+    "slug": "commercial/metamorfozy",
+    "video": "",
+    "gif": "/images/metamorfozy.png",
+    "externalLink": "",
+    "date": "2021"
+  },
+  {
+    "id": 7,
+    "title": "Warsaw Concept Store",
+    "category": [
+      "e-commerce"
+    ],
+    "role": "developer, project manager",
+    "description": "The online store for Warsaw Concept Store - a Warsaw based boutique with luxury products from Polish designers. I am responsible for the development and constant maintenance of this store since 2018.",
+    "stack": "Wordpress | HTML5 | SCSS | Javascript",
+    "image": "/images/wcs_short.png",
+    "link": "/project/commercial/warsaw-concept-store",
+    "slug": "commercial/warsaw-concept-store",
+    "video": "",
+    "gif": "/videos/WCS.gif",
+    "externalLink": "https://warsawconceptstore.pl/",
+    "date": "2022"
+  },
+  {
+    "id": 8,
+    "title": "Kisi-Kisi",
+    "category": [
+      "e-commerce"
+    ],
+    "role": "developer",
+    "description": "The simple website with nice animations for Kisi-Kisi - a family run company that sells beetroot kvas. The user can find information about the beetroot drink and check where to refill or buy bottles.",
+    "stack": "Custom Wordpress | CSS | Javascript | Lottie",
+    "image": "/images/kisi.png",
+    "link": "/project/commercial/kisi-kisi",
+    "slug": "commercial/kisi-kisi",
+    "video": "",
+    "gif": "/videos/kisi.gif",
+    "externalLink": "https://kisi-kisi.pl/",
+    "date": "2022"
+  },
+  {
+    "id": 21,
+    "title": "Digital Festival",
+    "category": [
+      "wordpress cms"
+    ],
+    "role": "developer",
+    "description": "A website for Digital Festival - initiative focused around digitalisation. The page contains schedules, news, podcasts, videos, streams, event descriptions and more.",
+    "stack": "Custom Wordpress | PHP | Javascript | jQuery | SCSS | ACF",
+    "image": "/images/digital_festival.png",
+    "link": "/project/commercial/digital_festival",
+    "slug": "commercial/digital_festival",
+    "video": "",
+    "gif": "/videos/digital_festival.gif",
+    "externalLink": "https://2021.digitalfestival.pl/",
+    "date": "2021"
+  },
+  {
+    "id": 22,
+    "title": "Digital Ars",
+    "category": [
+      "wordpress cms"
+    ],
+    "role": "developer",
+    "description": "A website for Digital Ars Competition - where contestants can upload their projects directly related with AI and Art.",
+    "stack": "Custom Wordpress | PHP | Javascript | jQuery | SCSS | ACF",
+    "image": "/images/digital_ars.png",
+    "link": "/project/commercial/digital_ars",
+    "slug": "commercial/digital_ars",
+    "video": "",
+    "gif": "/videos/digital_ars.gif",
+    "externalLink": "https://digitalars.pl/",
+    "date": "2021"
+  },
+  {
+    "id": 23,
+    "title": "European Digital Days",
+    "category": [
+      "wordpress cms"
+    ],
+    "role": "developer",
+    "description": "A website for European Digital Days - focused around digitalization and AI.",
+    "stack": "Custom Wordpress | Javascript | jQuery",
+    "image": "/images/edd.png",
+    "link": "/project/commercial/edd",
+    "slug": "commercial/edd",
+    "video": "",
+    "gif": "/videos/edd.gif",
+    "externalLink": "https://europeandigitaldays.eu/",
+    "date": "2021"
+  },
+  {
+    "id": 10,
+    "title": "Pracownia Orenda",
+    "category": [
+      "wordpress cms"
+    ],
+    "role": "developer, project manager",
+    "description": "The Garden designer portfolio website.",
+    "stack": "Custom Wordpress | CSS | Javascript",
+    "image": "/images/orenda.png",
+    "link": "/project/commercial/orenda-ogrody",
+    "slug": "commercial/orenda-ogrody",
+    "video": "",
+    "gif": "/videos/orenda.gif",
+    "externalLink": "https://procownia-orenda.pl/",
+    "date": "2020"
+  },
+  {
+    "id": 11,
+    "title": "Fashion Biznes",
+    "category": [
+      "wordpress cms"
+    ],
+    "role": "developer, project manager",
+    "description": "The portal with news about fashion industry and job offers with company and freelancer profiles. Companies can post their jobs and get evaluated by their employers, freelancers can find jobs and users can read news from fashion industry.",
+    "stack": "Custom Wordpress | WooCommerce | PHP | ACF | CSS | Javascript",
+    "image": "/images/fashion.png",
+    "link": "/project/commercial/fashion-biznes",
+    "slug": "commercial/fashion-biznes",
+    "video": "",
+    "gif": "/videos/fashion.gif",
+    "externalLink": "https://fashionbiznes.pl/",
+    "date": "2021"
+  },
+  {
+    "id": 12,
+    "title": "Michał Łuczak",
+    "category": [
+      "wordpress cms"
+    ],
+    "role": "developer",
+    "description": "The simple photographer's portfolio website, which showcases his photos, books and projects.",
+    "stack": "Custom Wordpress | CSS | Javascript",
+    "image": "/images/michal_luczak.png",
+    "link": "/project/commercial/michal-luczak",
+    "slug": "commercial/michal-luczak",
+    "video": "",
+    "gif": "/videos/michalluczak.gif",
+    "externalLink": "http://michal-luczak.com/",
+    "date": "2019"
+  },
+  {
+    "id": 13,
+    "title": "Zankru",
+    "category": [
+      "wordpress cms"
+    ],
+    "role": "developer",
+    "description": "Fashion designer and clothing brand portfolio and showcase website.",
+    "stack": "Custom Wordpress | CSS | Javascript",
+    "image": "/images/zankru.png",
+    "link": "/project/commercial/zankru",
+    "slug": "commercial/zankru",
+    "video": "",
+    "gif": "/videos/ZANKRU.gif",
+    "externalLink": "https://zankru.com/",
+    "date": "2018"
+  },
+  {
+    "id": 14,
+    "title": "Jan Brykczynski",
+    "category": [
+      "wordpress cms"
+    ],
+    "role": "developer",
+    "description": "The simple photographer's portfolio website, which showcases his photos, books and projects.",
+    "stack": "Custom Wordpress | CSS | Javascript",
+    "image": "/images/jan_brykczynski.png",
+    "link": "/project/commercial/jan-brykczynski",
+    "slug": "commercial/jan-brykczynski",
+    "video": "",
+    "gif": "/videos/janbrykczynski.gif",
+    "externalLink": "https://janbrykczynski.com/",
+    "date": "2020"
+  },
+  {
+    "id": 15,
+    "title": "Oaktopus Records",
+    "category": [
+      "wordpress cms"
+    ],
+    "role": "developer",
+    "description": "The Oaktopus Records Label website, where user can listen to the newest releases and find information about the label and artists.",
+    "stack": "Custom Wordpress | CSS | Javascript",
+    "image": "/images/oaktopus.png",
+    "link": "/project/commercial/oaktopus-records",
+    "slug": "commercial/oaktopus-records",
+    "video": "",
+    "gif": "/videos/oaktopus.gif",
+    "externalLink": "https://www.oaktopusrecords.com/",
+    "date": "2018"
+  },
+  {
+    "id": 16,
+    "title": "6X7 Professional Photography",
+    "category": [
+      "e-commerce"
+    ],
+    "role": "developer, e-commerce administrator",
+    "description": "The shop for a company that sells film cameras and distributes Leica in Poland. Required customizing the WooCommerce plugin and creating a custom plugin for the company's needs.",
+    "stack": "Custom Wordpress | CSS | Javascript | ACF | PHP | WooCommerce",
+    "image": "/images/6x7_btr.png",
+    "link": "/project/commercial/6x7",
+    "slug": "commercial/6x7",
+    "video": "/videos/6x7store.mp4",
+    "gif": "",
+    "externalLink": "https://6X7.com.pl/",
+    "date": "2021"
+  },
+  {
+    "id": 18,
+    "title": "Real Life Superheroes – Polish Inventors",
+    "category": [
+      "applications"
+    ],
+    "role": "developer",
+    "description": "An interactive e-book for children. I was responsible for programming, interaction and animations.",
+    "stack": "#android-studio #java #google-store",
+    "image": "/images/polish_inventors.png",
+    "link": "",
+    "slug": "",
+    "video": "",
+    "gif": "",
+    "externalLink": "",
+    "date": ""
+  },
+  {
+    "id": 19,
+    "title": "The mysterious disappearance of a white lady",
+    "category": [
+      "applications"
+    ],
+    "role": "developer",
+    "description": "An interactive e-book for children. I was responsible for programming, interaction and animations.",
+    "stack": "#android-studio #java #google-store",
+    "image": "/images/znikniecie_bialej.png",
+    "link": "",
+    "slug": "",
+    "video": "",
+    "gif": "",
+    "externalLink": "",
+    "date": ""
+  },
+  {
+    "id": 20,
+    "title": "Kubicki Stables",
+    "category": [
+      "applications"
+    ],
+    "role": "developer",
+    "description": "An interactive e-book for children. I was responsible for programming, interaction and animations.",
+    "stack": "#android-studio #java #interactive-kiosk",
+    "image": "/images/kafelki.jpg",
+    "link": "",
+    "slug": "",
+    "video": "",
+    "gif": "",
+    "externalLink": "",
+    "date": ""
+  }
+]
