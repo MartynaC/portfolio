@@ -1,39 +1,5 @@
 [
   {
-    "id": 1,
-    "title": "Bombraid.com",
-    "category": [
-      "react js"
-    ],
-    "role": "developer",
-    "description": "The guide about how to prepare a cellar as a shelter in case of a bombraid - developed voluntarily as a quick response to the war in Ukraine.",
-    "stack": "#reactjs #scss #figma #probono",
-    "image": "/images/bombraid2.png",
-    "link": "/project/commercial/bombraid",
-    "slug": "commercial/bombraid",
-    "video": "/videos/Bombraid.mp4",
-    "gif": "",
-    "externalLink": "",
-    "date": ""
-  },
-  {
-    "id": 4,
-    "title": "Exlibris",
-    "category": [
-      "applications"
-    ],
-    "role": "",
-    "description": "The project for Musuem Łazienki Królewskie, where the user can generate his own custom exlibris for books in a style inspired by paintings from the White House in Museum Łazienki Królewskie.",
-    "stack": "HTML5 | SCSS | Javascript | PHP",
-    "image": "/images/exlibris.png",
-    "link": "/project/commercial/exlibris",
-    "slug": "commercial/exlibris",
-    "video": "",
-    "gif": "/videos/Ekslibris.gif",
-    "externalLink": "https://ekslibris.lazienki-krolewskie.pl/",
-    "date": "2020"
-  },
-  {
     "id": 5,
     "title": "Leica Store Warsaw",
     "category": [
@@ -66,6 +32,40 @@
     "gif": "",
     "externalLink": "https://leicastreetphoto.pl/",
     "date": "2020, 2021, 2022"
+  },
+  {
+    "id": 4,
+    "title": "Exlibris",
+    "category": [
+      "applications"
+    ],
+    "role": "",
+    "description": "The project for Musuem Łazienki Królewskie, where the user can generate his own custom exlibris for books in a style inspired by paintings from the White House in Museum Łazienki Królewskie.",
+    "stack": "HTML5 | SCSS | Javascript | PHP",
+    "image": "/images/exlibris.png",
+    "link": "/project/commercial/exlibris",
+    "slug": "commercial/exlibris",
+    "video": "",
+    "gif": "/videos/Ekslibris.gif",
+    "externalLink": "https://ekslibris.lazienki-krolewskie.pl/",
+    "date": "2020"
+  },
+  {
+    "id": 1,
+    "title": "Bombraid.com",
+    "category": [
+      "react js"
+    ],
+    "role": "developer",
+    "description": "The guide about how to prepare a cellar as a shelter in case of a bombraid - developed voluntarily as a quick response to the war in Ukraine.",
+    "stack": "#reactjs #scss #figma #probono",
+    "image": "/images/bombraid2.png",
+    "link": "/project/commercial/bombraid",
+    "slug": "commercial/bombraid",
+    "video": "/videos/Bombraid.mp4",
+    "gif": "",
+    "externalLink": "",
+    "date": ""
   },
   {
     "id": 2,

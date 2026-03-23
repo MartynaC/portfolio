@@ -370,7 +370,7 @@ export default function TruncatedTetraCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      style={{ width: "70%", aspectRatio: "1", display: "block", margin: "0 auto" }}
+      style={{ width: "40%", aspectRatio: "1", display: "block", margin: "0 auto" }}
       onMouseMove={onMove}
       onMouseLeave={() => { mouseRef.current = [0, 0]; }}
     />
