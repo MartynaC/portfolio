@@ -6,5 +6,13 @@ export const metadata = {
 
 export default async function Page({ searchParams }) {
   const params = await searchParams;
-  return <HomeClient showProjects={params?.view === "projects"} />;
+  const view = params?.view;
+  return (
+    <HomeClient
+      showProjects={view === "projects"}
+      showDevelopment={view === "development"}
+      showAbout={view === "about"}
+      showContact={view === "contact"}
+    />
+  );
 }

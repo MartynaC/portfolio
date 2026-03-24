@@ -157,7 +157,7 @@ a.dropdown-item {
 }
 
 .bottom-nav li {
-  font-size: 18px;
+  font-size: 15px;
   margin-top: 3px;
   font-weight: bold;
   letter-spacing: 1px;
@@ -746,6 +746,31 @@ div.contact-page {
   }
   div.row.page-description {
     margin-top: 0px;
+  }
+  div.row.page-description.home {
+    border: none;
+  }
+  div.about-page,
+  div.contact-page {
+    padding-left: 30px;
+  }
+  .bottom-nav ul {
+    margin-left: 30px;
+    padding-left: 0;
+  }
+  div.row.home.page-description {
+    border-top: 1px solid whitesmoke;
+    margin-left: 30px;
+  }
+  section.front-page.tetra-hero {
+    min-height: unset;
+    max-height: 20vh;
+    canvas {
+      width: 80% !important;
+    }
+  }
+  div.row.home.page-description {
+    margin-top: 100px;
   }
   canvas.logo-canvas {
     top: 5px;

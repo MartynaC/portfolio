@@ -17,7 +17,9 @@ export const WORDS = [
   "resolume avenue",
   "madmapper",
   "vdmx",
-  "COMMERCIAL",
+];
+
+export const DEV_WORDS = [
   "html5",
   "sass/scss/css",
   "javascript / jquery",

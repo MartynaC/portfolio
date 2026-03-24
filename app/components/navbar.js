@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, Suspense } from "react";
 import Link from "next/link";
 import ScrollWords from "./ScrollWords";
 
@@ -59,14 +59,19 @@ export default function Navbar() {
           <Link href="/?view=projects">PROJECTS</Link>
         </li>
         <li className="list-item">
-          <Link href="/about">ABOUT</Link>
+          <Link href="/?view=about">ABOUT</Link>
         </li>
         <li className="list-item">
-          <Link href="/contact">CONTACT</Link>
+          <Link href="/?view=contact">CONTACT</Link>
+        </li>
+        <li className="list-item" style={{ fontSize: "0.7em" }}>
+          <Link href="/?view=development">development</Link>
         </li>
       </ul>
 
-      <ScrollWords />
+      <Suspense fallback={null}>
+        <ScrollWords />
+      </Suspense>
 
       <p className="sticky-bottom">
         Martyna Chojnacka <br />

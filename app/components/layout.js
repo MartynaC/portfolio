@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Navbar from "./navbar";
 import BottomNav from "./bottomNav";
 import MobileScrollWords from "./MobileScrollWords";
@@ -22,11 +22,13 @@ export default function Layout({ children }) {
       </div>
 
       <div className="d-md-none">
-        <MobileScrollWords />
+        <Suspense fallback={null}>
+          <MobileScrollWords />
+        </Suspense>
         <div className="absolute-top">
           <p>
             Martyna Chojnacka <br />
-            Web Developer | Creative Coder | Visual Artist
+            Creative Technologist | Visual Artist | Developer
           </p>
         </div>
 

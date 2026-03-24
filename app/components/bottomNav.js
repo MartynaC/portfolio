@@ -11,10 +11,10 @@ export default function BottomNav() {
           <Link href="/?view=projects">Projects</Link>
         </li>
         <li>
-          <Link href="/about">About</Link>
+          <Link href="/?view=about">About</Link>
         </li>
         <li>
-          <Link href="/contact">Contact</Link>
+          <Link href="/?view=contact">Contact</Link>
         </li>
         <a href="/">
           <img src="/images/tetha.svg" alt="Tetha logo" className="mobile-logo" />
