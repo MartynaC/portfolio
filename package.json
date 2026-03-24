@@ -4,18 +4,22 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/optimize-images.mjs",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.2.2",
     "next": "^15.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "bootstrap": "^5.2.2",
-    "@popperjs/core": "^2.11.6",
-    "sass": "^1.49.11",
-"react-player": "^2.11.2",
+    "react-player": "^2.11.2",
     "react-responsive-masonry": "^2.1.7",
-    "react-simple-typewriter": "^5.0.1"
+    "react-simple-typewriter": "^5.0.1",
+    "sass": "^1.49.11"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }

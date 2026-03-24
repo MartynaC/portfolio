@@ -184,9 +184,10 @@ export async function createArtTileEffect(canvas, imageSrc, params = PARAMS) {
     mx += (targetX - mx) * params.lerpSpeed;
     my += (targetY - my) * params.lerpSpeed;
 
-    // Match canvas resolution to CSS size.
-    const w = canvas.offsetWidth;
-    const h = canvas.offsetHeight;
+    // Match canvas resolution to CSS size, capped to save GPU memory.
+    const MAX = 512;
+    const w = Math.min(canvas.offsetWidth,  MAX);
+    const h = Math.min(canvas.offsetHeight, MAX);
     if (canvas.width !== w || canvas.height !== h) {
       canvas.width  = w;
       canvas.height = h;

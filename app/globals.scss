@@ -463,6 +463,7 @@ div.creative div.row.page-description h1, div.commercial div.row.page-descriptio
 }
 div.row.home.page-description {
   margin-top: 0px;
+  margin-left: 0;
 }
 
 img.project-main {
@@ -669,6 +670,7 @@ div.gradient-making {
 /* ABOUT PAGE */
 
 .about-page {
+  padding-left: 0;
   div.left-column {
     padding-left: 32px;
     ul{
@@ -699,6 +701,7 @@ div.gradient-making {
 /* CONTACT PAGE */
 
 div.contact-page {
+  padding-left: 0;
   a {
     text-decoration: none;
   }
@@ -792,6 +795,7 @@ div.contact-page {
   }
   div.container.commercial,  div.container.creative {
     padding-bottom: 100px;
+    margin-left: 8px;
   }
   div.row.page-description {
   div.project-data {

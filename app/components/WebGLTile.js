@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { createArtTileEffect, PARAMS } from "../webgl/artTileEffect";
+import useIsMobile from "../hooks/useIsMobile";
 
 const isEmbed = (url) => url && (url.includes("vimeo.com") || url.includes("youtube.com") || url.includes("youtu.be"));
 
@@ -26,6 +27,7 @@ function makeFloat() {
 }
 
 export default function WebGLTile({ src, alt, className, style, title, description, stack, role, video, gif, externalLink, date }) {
+  const isMobile = useIsMobile();
   const wrapperRef   = useRef(null);
   const boxRef       = useRef(null);
   const portalBoxRef = useRef(null);
@@ -38,13 +40,17 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
   const expandedRef  = useRef(false);
   const dragRef      = useRef({ active: false, lastX: 0, lastY: 0, rotX: 0, rotY: 0 });
   const [expanded, setExpanded] = useState(false);
+  const visibleRef = useRef(false);
 
-  // ── Continuous animation loop ──────────────────────────────────────
+  // ── Continuous animation loop — paused when off-screen ────────────
   useEffect(() => {
-    const box = boxRef.current;
-    if (!box) return;
+    const box     = boxRef.current;
+    const wrapper = wrapperRef.current;
+    if (!box || !wrapper) return;
 
     function tick() {
+      if (!visibleRef.current) { rafRef.current = null; return; }
+
       const f = floatRef.current;
       const t = performance.now() / 1000;
 
@@ -57,11 +63,9 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
         if (pb) {
           const drag = dragRef.current;
           if (drag.active) {
-            // Pure drag control — suppress auto-rotation while dragging
             pb.style.transform =
               `rotateX(${drag.rotX.toFixed(2)}deg) rotateY(${drag.rotY.toFixed(2)}deg)`;
           } else {
-            // Auto-rotation layered on top of accumulated drag position
             pb.style.transform =
               `rotateX(${(drag.rotX + rx).toFixed(2)}deg) rotateY(${(drag.rotY + ry).toFixed(2)}deg) rotateZ(${rz.toFixed(2)}deg)`;
           }
@@ -86,12 +90,27 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
       rafRef.current = requestAnimationFrame(tick);
     }
 
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visibleRef.current = entry.isIntersecting;
+        if (entry.isIntersecting && !rafRef.current) {
+          rafRef.current = requestAnimationFrame(tick);
+        }
+      },
+      { rootMargin: "100px" }
+    );
+    observer.observe(wrapper);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+      observer.disconnect();
+    };
   }, []);
 
-  // ── WebGL ──────────────────────────────────────────────────────────
+  // ── WebGL (desktop only — skip on mobile to avoid context accumulation) ──
   const ensureEffect = async () => {
+    if (isMobile) return;
     if (effectRef.current) return;
     const canvas = canvasRef.current;
     if (!canvas || !src) return;
@@ -184,7 +203,7 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
             <img src={src} alt="" style={{ width: "100%", display: "block", visibility: "hidden" }} />
             <iframe src={video} allow="autoplay; fullscreen" frameBorder="0" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }} />
           </div>
-        ) : video ? (
+        ) : video && !isMobile ? (
           <video src={video} autoPlay muted loop playsInline style={{ width: "100%", display: "block" }} />
         ) : (
           <>
@@ -222,7 +241,68 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
 
   return (
     <>
-      {expanded && createPortal(
+      {expanded && isMobile && createPortal(
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 9998,
+          background: "#CA3142", overflowY: "auto",
+        }}>
+          {/* Header: title + X */}
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            padding: "1rem 1.25rem 0.75rem",
+          }}>
+            {title && <h3 style={{ margin: 0, color: "#fff", fontSize: "1rem", lineHeight: 1.3 }}>{title}</h3>}
+            <button
+              onClick={(e) => { e.stopPropagation(); collapse(); }}
+              style={{
+                background: "none", border: "none",
+                color: "#fff", fontSize: "2rem",
+                lineHeight: 1, cursor: "pointer",
+                padding: "0 0.25rem", flexShrink: 0, marginLeft: "0.5rem",
+              }}
+              aria-label="Close"
+            >×</button>
+          </div>
+
+          {/* Media */}
+          {video && isEmbed(video) ? (
+            <div style={{ position: "relative", margin: "0 1.25rem", paddingTop: "calc(56.25% - 2.5rem)" }}>
+              <iframe
+                src={video}
+                allow="autoplay; fullscreen"
+                allowFullScreen
+                frameBorder="0"
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
+              />
+            </div>
+          ) : video ? (
+            <video
+              src={video}
+              controls
+              playsInline
+              style={{ width: "calc(100% - 2.5rem)", display: "block", margin: "0 1.25rem" }}
+            />
+          ) : (
+            <img src={gif || src} alt={alt || ""} style={{ width: "calc(100% - 2.5rem)", display: "block", margin: "0 1.25rem" }} />
+          )}
+
+          {/* Info */}
+          <div style={{ padding: "1.25rem 1.25rem 5rem", color: "#fff" }}>
+            {description && <p style={{ marginBottom: "0.75rem", opacity: 0.85 }}>{description}</p>}
+            {stack && <p style={{ marginBottom: "0.5rem", opacity: 0.65, fontSize: "0.85em" }}>{stack}</p>}
+            {role && <p style={{ marginBottom: "0.5rem", opacity: 0.65, fontSize: "0.85em" }}>{role}</p>}
+            {date && <p style={{ marginBottom: "0.5rem", opacity: 0.5, fontSize: "0.8em" }}>{date}</p>}
+            {externalLink && (
+              <a href={externalLink} target="_blank" rel="noreferrer" style={{ color: "#fff", fontSize: "0.8em" }}>
+                {externalLink}
+              </a>
+            )}
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {expanded && !isMobile && createPortal(
         <>
           {/* Backdrop */}
           <div
@@ -282,10 +362,8 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
                   <img src={src} alt="" style={{ width: "100%", display: "block", visibility: "hidden" }} />
                   <iframe src={video} allow="autoplay; fullscreen" frameBorder="0" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0, pointerEvents: "none" }} />
                 </div>
-              ) : video ? (
-                <video src={video} autoPlay muted loop playsInline style={{ width: "100%", display: "block", pointerEvents: "none" }} />
               ) : (
-                <img src={gif || src} alt={alt || ""} draggable={false} style={{ width: "100%", display: "block", pointerEvents: "none" }} />
+                <video src={video} autoPlay muted loop playsInline style={{ width: "100%", display: "block", pointerEvents: "none" }} />
               )}
             </div>
             <div className="wt-face wt-back">

@@ -224,7 +224,9 @@ export default function TruncatedTetraCanvas() {
 
     const resize = () => { const w = canvas.offsetWidth; canvas.width = w; canvas.height = w; };
     resize();
-    window.addEventListener("resize", resize);
+    let resizeTimer;
+    const debouncedResize = () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(resize, 150); };
+    window.addEventListener("resize", debouncedResize);
 
     const gl = canvas.getContext("webgl", { alpha: true, premultipliedAlpha: false });
     if (!gl) return;
@@ -354,7 +356,8 @@ export default function TruncatedTetraCanvas() {
 
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
+      clearTimeout(resizeTimer);
+      window.removeEventListener("resize", debouncedResize);
       videos.forEach(v => { v.pause(); v.src = ""; });
     };
   }, []);

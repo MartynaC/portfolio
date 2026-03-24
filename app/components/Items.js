@@ -4,6 +4,8 @@ import * as React from "react";
 import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import Image from "next/image";
+import useIsMobile from "../hooks/useIsMobile";
 
 const ResponsiveMasonry = dynamic(
   () => import("react-responsive-masonry").then((m) => m.ResponsiveMasonry),
@@ -14,12 +16,16 @@ const Masonry = dynamic(
   { ssr: false }
 );
 
+const imgStyle = { display: "block", width: "100%", height: "auto" };
+
 export default function Items({ data }) {
   const itemRefs = useRef([]);
   const lastY    = useRef(0);
+  const isMobile = useIsMobile();
 
-  // ── Parallax on odd items ──────────────────────────────────────────
+  // ── Parallax on odd items (desktop only) ──────────────────────────
   useEffect(() => {
+    if (isMobile) return;
     lastY.current = window.scrollY;
 
     const onScroll = () => {
@@ -32,7 +38,7 @@ export default function Items({ data }) {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [data]);
+  }, [data, isMobile]);
 
   return (
     <div style={{ width: "100%" }}>
@@ -42,12 +48,29 @@ export default function Items({ data }) {
             const { image, gif, video, title, link } = value;
             const isInternal = link?.startsWith("/");
 
-            const media = gif ? (
-              <img src={gif} style={{ display: "block", width: "100%" }} alt={title || ""} />
+            // On mobile: always use static image (skip video + gif)
+            const media = isMobile ? (
+              <Image
+                src={image}
+                alt={title || ""}
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={imgStyle}
+              />
+            ) : gif ? (
+              <img src={gif} style={imgStyle} alt={title || ""} />
             ) : video ? (
-              <video src={video} autoPlay muted loop playsInline style={{ display: "block", width: "100%" }} />
+              <video src={video} autoPlay muted loop playsInline style={imgStyle} />
             ) : (
-              <img src={image} style={{ display: "block", width: "100%" }} alt={title || ""} />
+              <Image
+                src={image}
+                alt={title || ""}
+                width={0}
+                height={0}
+                sizes="50vw"
+                style={imgStyle}
+              />
             );
 
             const card = isInternal ? (
@@ -62,7 +85,7 @@ export default function Items({ data }) {
               <div
                 key={link || title}
                 ref={(el) => (itemRefs.current[i] = el)}
-                style={{ margin: 0, padding: 0, lineHeight: 0, willChange: "transform" }}
+                style={{ margin: 0, padding: 0, lineHeight: 0, willChange: isMobile ? "auto" : "transform" }}
               >
                 {card}
               </div>
