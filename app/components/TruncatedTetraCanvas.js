@@ -211,6 +211,7 @@ export default function TruncatedTetraCanvas() {
   const canvasRef = useRef(null);
   const mouseRef  = useRef([0, 0]);
   const scrollRef = useRef(0);
+  const dragRef   = useRef({ active: false, lastX: 0, lastY: 0, rotX: 0, rotY: 0 });
 
   useEffect(() => {
     const onScroll = () => { scrollRef.current = Math.min(window.scrollY / 800, 1); };
@@ -304,8 +305,11 @@ export default function TruncatedTetraCanvas() {
       const [mx, my] = mouseRef.current;
       const sc  = scrollRef.current;
       const asp = canvas.width / (canvas.height || 1);
+      const drag = dragRef.current;
 
-      const model = mul(rx(my * 0.4), ry(t * (0.4 + sc * 0.5) + mx * 0.6));
+      const rotX = drag.active ? drag.rotX : drag.rotX + my * 0.4;
+      const rotY = drag.active ? drag.rotY : drag.rotY + t * (0.4 + sc * 0.5) + mx * 0.6;
+      const model = mul(rx(rotX), ry(rotY));
       const view  = new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,-3.2,1]);
       const proj  = persp(Math.PI / 4, asp, 0.1, 100);
       const mvp   = mul(proj, mul(view, model));
@@ -363,6 +367,7 @@ export default function TruncatedTetraCanvas() {
   }, []);
 
   const onMove = (e) => {
+    if (dragRef.current.active) return;
     const r = canvasRef.current.getBoundingClientRect();
     mouseRef.current = [
        ((e.clientX - r.left) / r.width  - 0.5) * 2,
@@ -370,12 +375,48 @@ export default function TruncatedTetraCanvas() {
     ];
   };
 
+  const onPointerDown = (e) => {
+    dragRef.current.active = true;
+    dragRef.current.lastX  = e.clientX;
+    dragRef.current.lastY  = e.clientY;
+    // freeze current auto-rotation into the offset
+    const t = performance.now() / 1000;
+    const sc = scrollRef.current;
+    dragRef.current.rotY += t * (0.4 + sc * 0.5);
+    canvasRef.current.setPointerCapture(e.pointerId);
+    canvasRef.current.style.cursor = "grabbing";
+  };
+
+  const onPointerMove = (e) => {
+    if (!dragRef.current.active) return;
+    const dx = e.clientX - dragRef.current.lastX;
+    const dy = e.clientY - dragRef.current.lastY;
+    dragRef.current.rotY += dx * 0.01;
+    dragRef.current.rotX -= dy * 0.01;
+    dragRef.current.lastX = e.clientX;
+    dragRef.current.lastY = e.clientY;
+  };
+
+  const onPointerUp = () => {
+    dragRef.current.active = false;
+    // re-zero the auto-rotation base so it resumes from current angle
+    const t = performance.now() / 1000;
+    const sc = scrollRef.current;
+    dragRef.current.rotY -= t * (0.4 + sc * 0.5);
+    mouseRef.current = [0, 0];
+    canvasRef.current.style.cursor = "grab";
+  };
+
   return (
     <canvas
       ref={canvasRef}
-      style={{ width: "40%", aspectRatio: "1", display: "block", margin: "0 auto" }}
+      style={{ width: "40%", aspectRatio: "1", display: "block", margin: "0 auto", cursor: "grab" }}
       onMouseMove={onMove}
-      onMouseLeave={() => { mouseRef.current = [0, 0]; }}
+      onMouseLeave={() => { if (!dragRef.current.active) mouseRef.current = [0, 0]; }}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
     />
   );
 }

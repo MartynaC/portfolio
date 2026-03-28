@@ -41,6 +41,9 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
   const dragRef      = useRef({ active: false, lastX: 0, lastY: 0, rotX: 0, rotY: 0 });
   const [expanded, setExpanded] = useState(false);
   const visibleRef = useRef(false);
+  const portalVideoRef = useRef(null);
+  const [vidMuted, setVidMuted] = useState(true);
+  const [vidProgress, setVidProgress] = useState(0);
 
   // ── Continuous animation loop — paused when off-screen ────────────
   useEffect(() => {
@@ -154,6 +157,7 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
     dragRef.current = { active: false, lastX: 0, lastY: 0, rotX: 0, rotY: 0 };
     expandedRef.current = true;
     setExpanded(true);
+    window.dispatchEvent(new CustomEvent("tile-modal", { detail: { open: true } }));
   };
 
   // ── Portal drag-to-rotate ──────────────────────────────────────────
@@ -184,15 +188,55 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
     if (!expandedRef.current) return;
     expandedRef.current = false;
     setExpanded(false);
+    window.dispatchEvent(new CustomEvent("tile-modal", { detail: { open: false } }));
   };
 
   const handleClick = (e) => {
+    if (e.target.closest("a")) return;
     e.preventDefault();
     e.stopPropagation();
     expandedRef.current ? collapse() : expand();
   };
 
   useEffect(() => { return () => effectRef.current?.destroy(); }, []);
+
+  useEffect(() => {
+    const vid = portalVideoRef.current;
+    if (!vid) return;
+    const onTime = () => setVidProgress(vid.duration ? vid.currentTime / vid.duration : 0);
+    vid.addEventListener("timeupdate", onTime);
+    return () => vid.removeEventListener("timeupdate", onTime);
+  }, [expanded]);
+
+  const videoControls = (vid) => !vid || isEmbed(vid) ? null : (
+    <div
+      onPointerDown={(e) => e.stopPropagation()}
+      style={{ display: "flex", alignItems: "center", gap: "8px", padding: "6px 10px", background: "rgba(0,0,0,0.45)", borderRadius: "4px" }}
+    >
+      <button
+        onClick={() => {
+          const el = portalVideoRef.current;
+          if (!el) return;
+          el.muted = !el.muted;
+          setVidMuted(el.muted);
+        }}
+        style={{ background: "none", border: "none", color: "#fff", cursor: "pointer", fontSize: "1rem", padding: 0, lineHeight: 1 }}
+      >
+        {vidMuted ? "🔇" : "🔊"}
+      </button>
+      <input
+        type="range" min="0" max="1" step="0.001"
+        value={vidProgress}
+        onChange={(e) => {
+          const el = portalVideoRef.current;
+          if (!el || !el.duration) return;
+          el.currentTime = e.target.value * el.duration;
+          setVidProgress(Number(e.target.value));
+        }}
+        style={{ flex: 1, accentColor: "#fff", cursor: "pointer" }}
+      />
+    </div>
+  );
 
   const faces = (
     <>
@@ -223,7 +267,6 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
         <div className="wt-left-content">
           {title && <h3>{title}</h3>}
           {description && <p>{description}</p>}
-          {stack && <p>{stack}</p>}
           {role && <p>{role}</p>}
         </div>
       </div>
@@ -232,7 +275,7 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
       <div className="wt-face wt-right">
         <div className="wt-right-content">
           {stack && <p className="wt-stack">&#91; {stack} &#93;</p>}
-          {externalLink && <a href={externalLink} target="_blank" rel="noreferrer">{externalLink}</a>}
+          {externalLink && <a href={externalLink} target="_blank" rel="noreferrer" onPointerDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()}>{externalLink}</a>}
           {date && <p className="wt-date">{date}</p>}
         </div>
       </div>
@@ -276,12 +319,18 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
               />
             </div>
           ) : video ? (
-            <video
-              src={video}
-              controls
-              playsInline
-              style={{ width: "calc(100% - 2.5rem)", display: "block", margin: "0 1.25rem" }}
-            />
+            <div style={{ margin: "0 1.25rem" }}>
+              <video
+                ref={portalVideoRef}
+                src={video}
+                autoPlay
+                muted
+                loop
+                playsInline
+                style={{ width: "100%", display: "block" }}
+              />
+              {videoControls(video)}
+            </div>
           ) : (
             <img src={gif || src} alt={alt || ""} style={{ width: "calc(100% - 2.5rem)", display: "block", margin: "0 1.25rem" }} />
           )}
@@ -306,10 +355,12 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
         <>
           {/* Backdrop */}
           <div
+            onClick={collapse}
             style={{
               position: "fixed", inset: 0,
               zIndex: 9998,
               background: "rgba(202,49,66,0.45)",
+              cursor: "pointer",
             }}
           />
 
@@ -336,6 +387,7 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
 
           {/* Expanded tile — fixed, centered, above everything */}
           <div
+            onClick={(e) => e.stopPropagation()}
             style={{
               position: "fixed",
               top: "50%",
@@ -356,14 +408,21 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
             onPointerUp={handlePortalPointerUp}
             onPointerCancel={handlePortalPointerUp}
           >
-            <div className="wt-face wt-front">
+            <div className="wt-face wt-front" style={{ position: "relative" }}>
               {video && isEmbed(video) ? (
                 <div style={{ position: "relative", pointerEvents: "none" }}>
                   <img src={src} alt="" style={{ width: "100%", display: "block", visibility: "hidden" }} />
                   <iframe src={video} allow="autoplay; fullscreen" frameBorder="0" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0, pointerEvents: "none" }} />
                 </div>
+              ) : video ? (
+                <video ref={portalVideoRef} src={video} autoPlay muted loop playsInline style={{ width: "100%", display: "block", pointerEvents: "none" }} />
               ) : (
-                <video src={video} autoPlay muted loop playsInline style={{ width: "100%", display: "block", pointerEvents: "none" }} />
+                <img src={gif || src} alt={alt || ""} style={{ width: "100%", display: "block", pointerEvents: "none" }} />
+              )}
+              {video && !isEmbed(video) && (
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
+                  {videoControls(video)}
+                </div>
               )}
             </div>
             <div className="wt-face wt-back">
@@ -380,7 +439,7 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
             <div className="wt-face wt-right">
               <div className="wt-right-content">
                 {stack && <p className="wt-stack">&#91; {stack} &#93;</p>}
-                {externalLink && <a href={externalLink} target="_blank" rel="noreferrer">{externalLink}</a>}
+                {externalLink && <a href={externalLink} target="_blank" rel="noreferrer" onPointerDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()}>{externalLink}</a>}
                 {date && <p className="wt-date">{date}</p>}
               </div>
             </div>

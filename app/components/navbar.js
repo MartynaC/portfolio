@@ -2,10 +2,12 @@
 
 import React, { useRef, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import ScrollWords from "./ScrollWords";
 
 export default function Navbar() {
   const canvasRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -45,14 +47,14 @@ export default function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-md">
-      <Link href="/">
-        <canvas
-          ref={canvasRef}
-          width={80}
-          height={80}
-          className="logo-canvas"
-        />
-      </Link>
+      <canvas
+        ref={canvasRef}
+        width={80}
+        height={80}
+        className="logo-canvas"
+        style={{ cursor: "pointer" }}
+        onClick={() => router.push("/")}
+      />
 
       <ul className="main-menu">
         <li className="list-item">

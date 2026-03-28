@@ -225,6 +225,11 @@ p.sticky-bottom {
   font-size: 12px;
 }
 
+@keyframes scroll-word-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .scroll-words {
   position: fixed;
   left: 50px;
@@ -252,11 +257,6 @@ p.sticky-bottom {
   animation: scroll-word-in 0.35s ease forwards;
 }
 
-@keyframes scroll-word-in {
-  from { opacity: 0; transform: translateY(5px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
 .mobile-scroll-header {
   display: none;
 }
@@ -282,7 +282,6 @@ p.sticky-bottom {
     gap: 14px;
     padding: 0 30px;
     white-space: nowrap;
-    transition: transform 0.35s ease;
   }
 
   .mobile-scroll-word {
@@ -290,8 +289,6 @@ p.sticky-bottom {
     font-size: 11px;
     font-weight: 300;
     color: whitesmoke;
-    opacity: 0;
-    animation: scroll-word-in 0.35s ease forwards;
   }
 }
 /* homepage */
@@ -669,8 +666,13 @@ div.gradient-making {
 
 /* ABOUT PAGE */
 
+div.creative {
+  margin-left: 0;
+}
+
 .about-page {
   padding-left: 0;
+  margin-left: 0;
   div.left-column {
     padding-left: 32px;
     ul{
@@ -702,6 +704,7 @@ div.gradient-making {
 
 div.contact-page {
   padding-left: 0;
+  margin-left: 0;
   a {
     text-decoration: none;
   }

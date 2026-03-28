@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState } from "react";
 import Navbar from "./navbar";
 import BottomNav from "./bottomNav";
-import MobileScrollWords from "./MobileScrollWords";
 
 export default function Layout({ children }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,9 +21,6 @@ export default function Layout({ children }) {
       </div>
 
       <div className="d-md-none">
-        <Suspense fallback={null}>
-          <MobileScrollWords />
-        </Suspense>
         <div className="absolute-top">
           <p>
             Martyna Chojnacka <br />

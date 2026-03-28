@@ -2,8 +2,10 @@
 
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function BottomNav() {
+  const router = useRouter();
   return (
     <nav className="bottom-nav d-md-none">
       <ul>
@@ -16,9 +18,13 @@ export default function BottomNav() {
         <li>
           <Link href="/?view=contact">Contact</Link>
         </li>
-        <a href="/">
-          <img src="/images/tetha.svg" alt="Tetha logo" className="mobile-logo" />
-        </a>
+        <img
+          src="/images/tetha.svg"
+          alt="Tetha logo"
+          className="mobile-logo"
+          style={{ cursor: "pointer" }}
+          onClick={() => router.push("/")}
+        />
       </ul>
     </nav>
   );
