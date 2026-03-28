@@ -4,7 +4,6 @@ node_modules/
 .env.local
 public/videos/*.MOV
 public/videos/*.mov
-public/videos/*.mp4
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/node
