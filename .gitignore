@@ -4,6 +4,12 @@ node_modules/
 .env.local
 public/videos/*.MOV
 public/videos/*.mov
+public/videos/*.mp4
+public/images/*.jpg
+public/images/*.jpeg
+public/images/*.png
+public/images/*.webp
+
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/node
@@ -148,5 +154,8 @@ dist
 
 # SvelteKit build / generate output
 .svelte-kit
+
+public/images
+public/videos
 
 # End of https://www.toptal.com/developers/gitignore/api/node

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // ── Geometry ─────────────────────────────────────────────────────────
 const V = [
@@ -25,12 +25,11 @@ const HEX = [
   [1,5,7,11,10,2],
 ];
 
-// Videos applied to the 4 hexagonal faces (cycles through 3)
 const VIDEO_SRCS = [
   "/videos/warstwyMandel_2LOOP.mp4",
-  "/videos/zloty_mandel_loop.mp4",
   "/videos/warstwyMandel_1LOOP.mp4",
-  "/videos/red_mandel_loop.mp4",
+  "/videos/warstwyMandel_1LOOP.mp4",
+  "/videos/warstwyMandel_2LOOP.mp4",
 ];
 
 function cross(a, b) {
@@ -42,7 +41,6 @@ function norm(v) {
   return [v[0]/l, v[1]/l, v[2]/l];
 }
 
-// Triangular faces — solid red (original colour)
 function buildTriFaces() {
   const pos = [], nor = [], col = [];
   const triC = [202/255, 49/255, 66/255];
@@ -53,7 +51,6 @@ function buildTriFaces() {
   return { pos: new Float32Array(pos), nor: new Float32Array(nor), col: new Float32Array(col), count: pos.length / 3 };
 }
 
-// Single hexagonal face — fan-triangulated with projected UV coords
 function buildHexFace(idxs) {
   const verts = idxs.map(i => V[i]);
   const n  = norm(cross(sub(verts[1], verts[0]), sub(verts[2], verts[0])));
@@ -91,19 +88,12 @@ function buildEdges() {
 }
 
 // ── Shaders ───────────────────────────────────────────────────────────
-// Solid colour (tri faces)
 const FV = `
   attribute vec3 a_pos, a_nor, a_col;
   uniform mat4 u_mvp; uniform mat3 u_nm;
   uniform vec2 u_mouse; uniform float u_time, u_scroll;
   varying vec3 v_col; varying float v_l;
   void main() {
-    vec3 mDir = normalize(vec3(u_mouse * 0.8, 0.8));
-    // float align = dot(normalize(a_pos), mDir) * 0.5 + 0.5;
-    // float pull = smoothstep(0.3, 1.0, align);
-    // float amp = (0.07 + u_scroll * 0.05) * pull;
-    // float wave = sin(length(a_pos) * 12.0 - u_time * 4.0) * amp;
-    // vec3 disp = a_pos + a_nor * wave;
     vec3 disp = a_pos;
     vec3 n = normalize(u_nm * a_nor);
     v_l = 0.35 + 0.65 * max(dot(n, normalize(vec3(1.0, 1.5, 2.0))), 0.0);
@@ -117,19 +107,12 @@ const FF = `
   void main() { gl_FragColor = vec4(v_col * v_l, 1.0); }
 `;
 
-// Video texture (hex faces)
 const TV = `
   attribute vec3 a_pos, a_nor; attribute vec2 a_uv;
   uniform mat4 u_mvp; uniform mat3 u_nm;
   uniform vec2 u_mouse; uniform float u_time, u_scroll;
   varying vec2 v_uv; varying float v_l; varying vec2 v_mouse; varying float v_time;
   void main() {
-    vec3 mDir = normalize(vec3(u_mouse * 0.8, 0.8));
-    // float align = dot(normalize(a_pos), mDir) * 0.5 + 0.5;
-    // float pull = smoothstep(0.3, 1.0, align);
-    // float amp = (0.07 + u_scroll * 0.05) * pull;
-    // float wave = sin(length(a_pos) * 12.0 - u_time * 4.0) * amp;
-    // vec3 disp = a_pos + a_nor * wave;
     vec3 disp = a_pos;
     vec3 n = normalize(u_nm * a_nor);
     v_l = 0.35 + 0.65 * max(dot(n, normalize(vec3(1.0, 1.5, 2.0))), 0.0);
@@ -169,18 +152,10 @@ const TF = `
   }
 `;
 
-// Edges
 const EV = `
   attribute vec3 a_pos;
   uniform mat4 u_mvp; uniform vec2 u_mouse; uniform float u_time, u_scroll;
   void main() {
-    vec3 n = normalize(a_pos);
-    vec3 mDir = normalize(vec3(u_mouse * 0.8, 0.8));
-    // float align = dot(n, mDir) * 0.5 + 0.5;
-    // float pull = smoothstep(0.3, 1.0, align);
-    // float amp = (0.07 + u_scroll * 0.05) * pull;
-    // float wave = sin(length(a_pos) * 12.0 - u_time * 4.0) * amp;
-    // vec3 disp = a_pos + n * wave;
     vec3 disp = a_pos;
     gl_Position = u_mvp * vec4(disp, 1.0);
   }
@@ -203,15 +178,41 @@ const mul = (a,b) => {
 };
 const nm3 = m => new Float32Array([m[0],m[1],m[2],m[4],m[5],m[6],m[8],m[9],m[10]]);
 
+// ── Audio worklet source (as a blob URL) ─────────────────────────────
+const WORKLET_CODE = `
+class BrownNoiseProcessor extends AudioWorkletProcessor {
+  constructor() { super(); this._lastOut = 0.0; }
+  process(inputs, outputs) {
+    const out = outputs[0][0];
+    for (let i = 0; i < out.length; i++) {
+      const white = Math.random() * 2 - 1;
+      this._lastOut = (this._lastOut + 0.02 * white) / 1.02;
+      out[i] = this._lastOut * 3.5;
+    }
+    return true;
+  }
+}
+registerProcessor('brown-noise', BrownNoiseProcessor);
+`;
+
 // ── Component ─────────────────────────────────────────────────────────
 // Files to adjust this component:
-//   app/components/TruncatedTetraCanvas.js  — shaders, geometry, animation params
+//   app/components/TruncatedTetraCanvas.js  — shaders, geometry, animation params, audio
 //   app/globals.scss                        — .tetra-hero sizing / positioning
+//
+// Audio mapping:
+//   mouse X  →  filter cutoff frequency  (left = deep ~80 Hz, right = bright ~2400 Hz)
+//   mouse Y  →  filter resonance / Q     (bottom = flat, top = resonant)
 export default function TruncatedTetraCanvas() {
-  const canvasRef = useRef(null);
-  const mouseRef  = useRef([0, 0]);
-  const scrollRef = useRef(0);
-  const dragRef   = useRef({ active: false, lastX: 0, lastY: 0, rotX: 0, rotY: 0 });
+  const canvasRef  = useRef(null);
+  const mouseRef   = useRef([0, 0]);
+  const scrollRef  = useRef(0);
+  const dragRef    = useRef({ active: false, lastX: 0, lastY: 0, rotX: 0, rotY: 0 });
+
+  // Audio refs — kept stable across renders
+  const audioRef   = useRef(null);   // { ctx, gain, filter, playing }
+  const playingRef = useRef(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const onScroll = () => { scrollRef.current = Math.min(window.scrollY / 800, 1); };
@@ -219,6 +220,67 @@ export default function TruncatedTetraCanvas() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // ── Audio engine ────────────────────────────────────────────────────
+  const setupAudio = async () => {
+    if (audioRef.current) return; // already initialised
+
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    const blob = new Blob([WORKLET_CODE], { type: "application/javascript" });
+    const url  = URL.createObjectURL(blob);
+    await ctx.audioWorklet.addModule(url);
+    URL.revokeObjectURL(url);
+
+    const source = new AudioWorkletNode(ctx, "brown-noise");
+    const filter = ctx.createBiquadFilter();
+    const gain   = ctx.createGain();
+
+    filter.type            = "lowpass";
+    filter.frequency.value = 400;
+    filter.Q.value         = 1;
+    gain.gain.value        = 0; // start silent; fade in on play
+
+    source.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+
+    audioRef.current = { ctx, source, filter, gain };
+  };
+
+  const togglePlay = async () => {
+    await setupAudio();
+    const { ctx, gain } = audioRef.current;
+    if (ctx.state === "suspended") await ctx.resume();
+
+    if (!playingRef.current) {
+      gain.gain.cancelScheduledValues(ctx.currentTime);
+      gain.gain.setTargetAtTime(0.6, ctx.currentTime, 0.1);
+      playingRef.current = true;
+      setIsPlaying(true);
+    } else {
+      gain.gain.cancelScheduledValues(ctx.currentTime);
+      gain.gain.setTargetAtTime(0, ctx.currentTime, 0.15);
+      playingRef.current = false;
+      setIsPlaying(false);
+    }
+  };
+
+  // Drive audio params from mouse position every animation frame
+  const updateAudio = (mx, my) => {
+    if (!audioRef.current || !playingRef.current) return;
+    const { ctx, filter } = audioRef.current;
+
+    // mx in [-1, 1]  →  cutoff 80 Hz … 2400 Hz  (log scale feels more natural)
+    const t = (mx + 1) / 2;                         // 0 … 1
+    const cutoff = 80 * Math.pow(2400 / 80, t);      // exponential sweep
+    filter.frequency.setTargetAtTime(cutoff, ctx.currentTime, 0.05);
+
+    // my in [-1, 1], top = 1  →  Q 0.5 … 8
+    const q = 0.5 + ((my + 1) / 2) * 7.5;
+    filter.Q.setTargetAtTime(q, ctx.currentTime, 0.05);
+  };
+
+  // ── WebGL render loop ───────────────────────────────────────────────
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -245,18 +307,12 @@ export default function TruncatedTetraCanvas() {
 
     const buf = (data) => { const b=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b); gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW); return b; };
 
-    // Tri face buffers (solid)
     const tpBuf = buf(triFaces.pos);
     const tnBuf = buf(triFaces.nor);
     const tcBuf = buf(triFaces.col);
-
-    // Per-hex-face buffers
     const hexBufs = hexFaces.map(f => ({ pos: buf(f.pos), nor: buf(f.nor), uv: buf(f.uv) }));
-
-    // Edge buffer
     const eBuf = buf(edgePts);
 
-    // Video elements
     const videos = VIDEO_SRCS.map(src => {
       const v = document.createElement("video");
       v.src = src; v.autoplay = true; v.loop = true; v.muted = true; v.playsInline = true;
@@ -264,7 +320,6 @@ export default function TruncatedTetraCanvas() {
       return v;
     });
 
-    // Video textures — init with 1×1 black pixel
     const textures = videos.map(() => {
       const tex = gl.createTexture();
       gl.bindTexture(gl.TEXTURE_2D, tex);
@@ -286,7 +341,6 @@ export default function TruncatedTetraCanvas() {
 
     let raf;
     const render = () => {
-      // Upload current video frames
       videos.forEach((v, i) => {
         if (v.readyState >= v.HAVE_CURRENT_DATA) {
           gl.bindTexture(gl.TEXTURE_2D, textures[i]);
@@ -315,7 +369,9 @@ export default function TruncatedTetraCanvas() {
       const mvp   = mul(proj, mul(view, model));
       const nm    = nm3(model);
 
-      // Tri faces — solid red
+      // Update audio params from current mouse position each frame
+      updateAudio(mx, my);
+
       gl.useProgram(fProg);
       gl.uniformMatrix4fv(gl.getUniformLocation(fProg,"u_mvp"), false, mvp);
       gl.uniformMatrix3fv(gl.getUniformLocation(fProg,"u_nm"),  false, nm);
@@ -327,7 +383,6 @@ export default function TruncatedTetraCanvas() {
       setAttr(fProg, "a_col", tcBuf, 3);
       gl.drawArrays(gl.TRIANGLES, 0, triFaces.count);
 
-      // Hex faces — video textures
       gl.useProgram(tProg);
       gl.uniformMatrix4fv(gl.getUniformLocation(tProg,"u_mvp"), false, mvp);
       gl.uniformMatrix3fv(gl.getUniformLocation(tProg,"u_nm"),  false, nm);
@@ -345,7 +400,6 @@ export default function TruncatedTetraCanvas() {
         gl.drawArrays(gl.TRIANGLES, 0, hexFaces[i].count);
       });
 
-      // Edges
       gl.useProgram(eProg);
       gl.uniformMatrix4fv(gl.getUniformLocation(eProg,"u_mvp"), false, mvp);
       gl.uniform2f(gl.getUniformLocation(eProg,"u_mouse"), mx, my);
@@ -366,6 +420,7 @@ export default function TruncatedTetraCanvas() {
     };
   }, []);
 
+  // ── Pointer / mouse handlers ────────────────────────────────────────
   const onMove = (e) => {
     if (dragRef.current.active) return;
     const r = canvasRef.current.getBoundingClientRect();
@@ -379,7 +434,6 @@ export default function TruncatedTetraCanvas() {
     dragRef.current.active = true;
     dragRef.current.lastX  = e.clientX;
     dragRef.current.lastY  = e.clientY;
-    // freeze current auto-rotation into the offset
     const t = performance.now() / 1000;
     const sc = scrollRef.current;
     dragRef.current.rotY += t * (0.4 + sc * 0.5);
@@ -395,11 +449,16 @@ export default function TruncatedTetraCanvas() {
     dragRef.current.rotX -= dy * 0.01;
     dragRef.current.lastX = e.clientX;
     dragRef.current.lastY = e.clientY;
+    // During drag, map pointer position to audio too
+    const r = canvasRef.current.getBoundingClientRect();
+    mouseRef.current = [
+       ((e.clientX - r.left) / r.width  - 0.5) * 2,
+      -((e.clientY - r.top)  / r.height - 0.5) * 2,
+    ];
   };
 
   const onPointerUp = () => {
     dragRef.current.active = false;
-    // re-zero the auto-rotation base so it resumes from current angle
     const t = performance.now() / 1000;
     const sc = scrollRef.current;
     dragRef.current.rotY -= t * (0.4 + sc * 0.5);
@@ -407,16 +466,41 @@ export default function TruncatedTetraCanvas() {
     canvasRef.current.style.cursor = "grab";
   };
 
+  // ── Render ──────────────────────────────────────────────────────────
   return (
-    <canvas
-      ref={canvasRef}
-      style={{ width: "40%", aspectRatio: "1", display: "block", margin: "0 auto", cursor: "grab" }}
-      onMouseMove={onMove}
-      onMouseLeave={() => { if (!dragRef.current.active) mouseRef.current = [0, 0]; }}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerUp}
-    />
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem", width: "100%" }}>
+      <canvas
+        ref={canvasRef}
+        style={{ width: "40%", aspectRatio: "1", display: "block", cursor: "grab" }}
+        onMouseMove={onMove}
+        onMouseLeave={() => { if (!dragRef.current.active) mouseRef.current = [0, 0]; }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+      />
+
+      {/* Sound controls */}
+      <div className="tetra-controls" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+        <button
+          onClick={togglePlay}
+          style={{ background: "none", border: "none", color: "inherit", cursor: "pointer", padding: 0, lineHeight: 1, display: "flex", alignItems: "center" }}
+        >
+          {isPlaying ? (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round">
+              <line x1="5" y1="2" x2="5" y2="14"/>
+              <line x1="11" y1="2" x2="11" y2="14"/>
+            </svg>
+          ) : (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="4,2 13,8 4,14" fill="none"/>
+            </svg>
+          )}
+        </button>
+        <span style={{ fontSize: "11px", opacity: 0.35, letterSpacing: "0.04em", paddingRight: "calc(var(--bs-gutter-x) * 0.5)" }}>
+          move cursor to shape pitch &amp; resonance
+        </span>
+      </div>
+    </div>
   );
 }

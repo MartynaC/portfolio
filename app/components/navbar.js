@@ -15,7 +15,7 @@ export default function Navbar() {
     const ctx = canvas.getContext("2d");
 
     const img = new Image();
-    img.src = "/images/tetha.svg";
+    img.src = "https://media.martynachojnacka.com/images/tetha.svg";
 
     const cx = canvas.width / 2;
     const cy = canvas.height / 2;
@@ -67,7 +67,7 @@ export default function Navbar() {
           <Link href="/?view=contact">CONTACT</Link>
         </li>
         <li className="list-item" style={{ fontSize: "0.7em" }}>
-          <Link href="/?view=development">development</Link>
+          <Link href="/?view=development">web dev archive</Link>
         </li>
       </ul>
 

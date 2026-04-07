@@ -7,6 +7,20 @@ import useIsMobile from "../hooks/useIsMobile";
 
 const isEmbed = (url) => url && (url.includes("vimeo.com") || url.includes("youtube.com") || url.includes("youtu.be"));
 
+// Strip background-mode params so the expanded portal shows a proper interactive player
+const toInteractiveEmbed = (url) => {
+  if (!url) return url;
+  try {
+    const u = new URL(url.split("#")[0]);
+    u.searchParams.delete("background");
+    u.searchParams.delete("muted");
+    u.searchParams.set("autoplay", "1");
+    return u.toString();
+  } catch {
+    return url;
+  }
+};
+
 function makeFloat() {
   return {
     phase:     Math.random() * Math.PI * 2,
@@ -26,7 +40,7 @@ function makeFloat() {
   };
 }
 
-export default function WebGLTile({ src, alt, className, style, title, description, stack, role, video, gif, externalLink, date }) {
+export default function WebGLTile({ src, src2, alt, className, style, title, description, stack, role, video, gif, externalLink, date }) {
   const isMobile = useIsMobile();
   const wrapperRef   = useRef(null);
   const boxRef       = useRef(null);
@@ -43,6 +57,7 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
   const visibleRef = useRef(false);
   const portalVideoRef = useRef(null);
   const [vidMuted, setVidMuted] = useState(true);
+  const [vidPaused, setVidPaused] = useState(false);
   const [vidProgress, setVidProgress] = useState(0);
 
   // ── Continuous animation loop — paused when off-screen ────────────
@@ -208,11 +223,38 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
     return () => vid.removeEventListener("timeupdate", onTime);
   }, [expanded]);
 
+  useEffect(() => {
+    if (portalVideoRef.current) portalVideoRef.current.muted = vidMuted;
+  }, [vidMuted]);
+
   const videoControls = (vid) => !vid || isEmbed(vid) ? null : (
     <div
       onPointerDown={(e) => e.stopPropagation()}
-      style={{ display: "flex", alignItems: "center", gap: "8px", padding: "6px 10px", background: "rgba(0,0,0,0.45)", borderRadius: "4px" }}
+      style={{ display: "flex", alignItems: "center", gap: "10px", padding: "6px 10px", background: "rgba(0,0,0,0.45)", borderRadius: "4px" }}
     >
+      {/* Play / Pause */}
+      <button
+        onClick={() => {
+          const el = portalVideoRef.current;
+          if (!el) return;
+          el.paused ? el.play() : el.pause();
+          setVidPaused(el.paused);
+        }}
+        style={{ background: "none", border: "none", color: "#fff", cursor: "pointer", padding: 0, lineHeight: 1, display: "flex", alignItems: "center" }}
+      >
+        {vidPaused ? (
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#fff" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="4,2 13,8 4,14" stroke="#fff" strokeWidth="1.2" fill="none"/>
+          </svg>
+        ) : (
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#fff" strokeWidth="1.2" strokeLinecap="round">
+            <line x1="5" y1="2" x2="5" y2="14"/>
+            <line x1="11" y1="2" x2="11" y2="14"/>
+          </svg>
+        )}
+      </button>
+
+      {/* Mute / Unmute */}
       <button
         onClick={() => {
           const el = portalVideoRef.current;
@@ -220,10 +262,26 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
           el.muted = !el.muted;
           setVidMuted(el.muted);
         }}
-        style={{ background: "none", border: "none", color: "#fff", cursor: "pointer", fontSize: "1rem", padding: 0, lineHeight: 1 }}
+        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 1, display: "flex", alignItems: "center" }}
       >
-        {vidMuted ? "🔇" : "🔊"}
+        {vidMuted ? (
+          <svg width="18" height="18" viewBox="0 0 100 100" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" opacity="0.4">
+            <rect x="10" y="35" width="22" height="30" rx="2"/>
+            <path d="M32 35 L55 18 L55 82 L32 65 Z"/>
+            <line x1="65" y1="35" x2="85" y2="65"/>
+            <line x1="85" y1="35" x2="65" y2="65"/>
+          </svg>
+        ) : (
+          <svg width="18" height="18" viewBox="0 0 100 100" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="10" y="35" width="22" height="30" rx="2"/>
+            <path d="M32 35 L55 18 L55 82 L32 65 Z"/>
+            <path d="M63 38 Q74 50 63 62" strokeWidth="4.5"/>
+            <path d="M70 30 Q86 50 70 70" strokeWidth="4.5"/>
+          </svg>
+        )}
       </button>
+
+      {/* Timeline */}
       <input
         type="range" min="0" max="1" step="0.001"
         value={vidProgress}
@@ -233,7 +291,8 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
           el.currentTime = e.target.value * el.duration;
           setVidProgress(Number(e.target.value));
         }}
-        style={{ flex: 1, accentColor: "#fff", cursor: "pointer" }}
+        className="tetra-range"
+        style={{ flex: 1, cursor: "pointer", "--progress": `${vidProgress * 100}%` }}
       />
     </div>
   );
@@ -259,7 +318,7 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
 
       {/* Back face */}
       <div className="wt-face wt-back">
-        <img src={src} alt={alt || ""} draggable={false} />
+        <img src={src2 || src} alt={alt || ""} draggable={false} />
       </div>
 
       {/* Left face */}
@@ -410,9 +469,8 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
           >
             <div className="wt-face wt-front" style={{ position: "relative" }}>
               {video && isEmbed(video) ? (
-                <div style={{ position: "relative", pointerEvents: "none" }}>
-                  <img src={src} alt="" style={{ width: "100%", display: "block", visibility: "hidden" }} />
-                  <iframe src={video} allow="autoplay; fullscreen" frameBorder="0" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0, pointerEvents: "none" }} />
+                <div style={{ position: "relative", paddingTop: "56.25%" }}>
+                  <iframe src={toInteractiveEmbed(video)} allow="autoplay; fullscreen" allowFullScreen frameBorder="0" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }} />
                 </div>
               ) : video ? (
                 <video ref={portalVideoRef} src={video} autoPlay muted loop playsInline style={{ width: "100%", display: "block", pointerEvents: "none" }} />
@@ -426,7 +484,7 @@ export default function WebGLTile({ src, alt, className, style, title, descripti
               )}
             </div>
             <div className="wt-face wt-back">
-              <img src={src} alt={alt || ""} draggable={false} style={{ pointerEvents: "none" }} />
+              <img src={src2 || src} alt={alt || ""} draggable={false} style={{ pointerEvents: "none" }} />
             </div>
             <div className="wt-face wt-left">
               <div className="wt-left-content">

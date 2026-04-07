@@ -19,7 +19,7 @@ export default function BottomNav() {
           <Link href="/?view=contact">Contact</Link>
         </li>
         <img
-          src="/images/tetha.svg"
+          src="https://media.martynachojnacka.com/images/tetha.svg"
           alt="Tetha logo"
           className="mobile-logo"
           style={{ cursor: "pointer" }}

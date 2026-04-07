@@ -43,7 +43,7 @@ export default function Items({ data }) {
   return (
     <div style={{ width: "100%" }}>
       <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 700: 2, 900: 2 }}>
-        <Masonry gutter="0px" style={{ gap: 0 }}>
+        <Masonry gutter="10px" style={{ gap: "10px" }}>
           {data.map((value, i) => {
             const { image, gif, video, title, link } = value;
             const isInternal = link?.startsWith("/");
