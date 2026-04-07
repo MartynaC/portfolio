@@ -7,6 +7,11 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const imgDir = path.join(__dirname, "../public/images");
 
+if (!existsSync(imgDir)) {
+  console.log("No local images folder, skipping optimization.");
+  process.exit(0);
+}
+
 const EXTENSIONS = [".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"];
 
 async function convertToWebP(filePath) {
