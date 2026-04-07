@@ -23,7 +23,7 @@ const HEX = [
   [3,11,10,6,4,0],
   [9,1,2,6,4,8],
   [1,5,7,11,10,2],
-];
+]; 
 
 const VIDEO_SRCS = [
   "https://media.martynachojnacka.com/videos/warstwyMandel_2LOOP.mp4",
@@ -31,6 +31,7 @@ const VIDEO_SRCS = [
   "https://media.martynachojnacka.com/videos/warstwyMandel_1LOOP.mp4",
   "https://media.martynachojnacka.com/videos/warstwyMandel_2LOOP.mp4",
 ];
+
 
 function cross(a, b) {
   return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
@@ -315,6 +316,7 @@ export default function TruncatedTetraCanvas() {
 
     const videos = VIDEO_SRCS.map(src => {
       const v = document.createElement("video");
+      v.crossOrigin = "anonymous";
       v.src = src; v.autoplay = true; v.loop = true; v.muted = true; v.playsInline = true;
       v.play().catch(() => {});
       return v;
