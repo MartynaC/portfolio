@@ -26,10 +26,10 @@ const HEX = [
 ];
 
 const VIDEO_SRCS = [
-  "/videos/warstwyMandel_2LOOP.mp4",
-  "/videos/warstwyMandel_1LOOP.mp4",
-  "/videos/warstwyMandel_1LOOP.mp4",
-  "/videos/warstwyMandel_2LOOP.mp4",
+  "https://media.martynachojnacka.com/videos/warstwyMandel_2LOOP.mp4",
+  "https://media.martynachojnacka.com/videos/warstwyMandel_1LOOP.mp4",
+  "https://media.martynachojnacka.com/videos/warstwyMandel_1LOOP.mp4",
+  "https://media.martynachojnacka.com/videos/warstwyMandel_2LOOP.mp4",
 ];
 
 function cross(a, b) {
