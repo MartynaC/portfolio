@@ -37,7 +37,7 @@ function LazyTile({ value }) {
           <WebGLTile
             src={value.image} src2={value.image2} alt={value.title || ""} className="img-fluid" style={{ height: "100%" }}
             title={value.title} description={value.description} stack={value.stack} role={value.role}
-            video={value.video} gif={value.gif} externalLink={value.externalLink} date={value.date}
+            video={value.video} gif={value.gif} noAudio={value.noAudio} externalLink={value.externalLink} date={value.date}
           />
         ) : (
           <img

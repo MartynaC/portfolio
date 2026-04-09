@@ -30,7 +30,7 @@ export default function ProjectClient({ project }) {
         <ReactPlayer url={project.video} playing loop muted playsinline width="100%" height="100%" />
       </div>
     ) : (
-      <video src={project.video} autoPlay muted loop playsInline style={{ maxHeight: "80%", maxWidth: "70%", objectFit: "contain" }} />
+      <video src={project.video} loop playsInline controls style={{ maxHeight: "80%", maxWidth: "70%", objectFit: "contain" }} />
     )
   ) : project.image?.length > 0 ? (
     <img src={project.image} alt={project.title || ""} style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }} />

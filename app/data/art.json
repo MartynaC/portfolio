@@ -81,6 +81,7 @@
     "slug": "creative/positive_disintegration",
     "video": "https://media.martynachojnacka.com/videos/rozgladanko.mp4",
     "gif": "",
+    "noAudio": true,
     "externalLink": "",
     "date": "Spatif Club Warsaw, December 2022 / Constant development"
   },
@@ -129,6 +130,7 @@
     "slug": "creative/cymatics",
     "video": "https://media.martynachojnacka.com/videos/cymatics_correct.mp4",
     "gif": "",
+    "noAudio": true,
     "externalLink": "https://www.youtube.com/watch?v=Fz1n9oj3VnY&t=1272s",
     "date": "Mieczysław Karłowicz Philharmonic in Szczecin"
   },
@@ -145,6 +147,7 @@
     "slug": "creative/blob",
     "video": "https://media.martynachojnacka.com/videos/blob_blk_wht.mp4",
     "gif": "",
+    "noAudio": true,
     "externalLink": "",
     "date": "Jutronauci 2018 Warsaw · Permutacje Festival Konin · TEDx Warsaw · Gdynia Design Days 2019"
   },
@@ -209,6 +212,7 @@
     "slug": "creative/keen",
     "video": "https://media.martynachojnacka.com/videos/kolorowy_idzie2_1.mp4",
     "gif": "",
+    "noAudio": true,
     "externalLink": "",
     "date": "Spatif Club Warsaw · JazzJantar Festival Gdańsk · Świetlica Krytyki Politycznej Warsaw"
   },
@@ -273,6 +277,7 @@
     "slug": "creative/hype_scream",
     "video": "https://media.martynachojnacka.com/videos/duza_armia.mp4",
     "gif": "",
+    "noAudio": true,
     "externalLink": "",
     "date": "HT NFT Gallery opening 2022 · Thomas Schumacher VJ Set 2022"
   }

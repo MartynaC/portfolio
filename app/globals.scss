@@ -562,6 +562,8 @@ div.gradient-making {
   perspective: 3000px;
   cursor: crosshair;
   --wt-depth: 260px;
+  -webkit-tap-highlight-color: transparent;
+  * { -webkit-tap-highlight-color: transparent; }
 }
 
 // The animated box — receives the floating + rotation transform each frame
@@ -569,6 +571,18 @@ div.gradient-making {
   position: relative;
   transform-style: preserve-3d;
   will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-select: none;
+    outline: none;
+  }
 }
 
 // ── Face base ───────────────────────────────────────────────────────

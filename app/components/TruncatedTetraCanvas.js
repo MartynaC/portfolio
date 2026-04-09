@@ -228,6 +228,19 @@ export default function TruncatedTetraCanvas() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const stopNoise = () => {
+      if (!playingRef.current || !audioRef.current) return;
+      const { ctx, gain } = audioRef.current;
+      gain.gain.cancelScheduledValues(ctx.currentTime);
+      gain.gain.setTargetAtTime(0, ctx.currentTime, 0.15);
+      playingRef.current = false;
+      setIsPlaying(false);
+    };
+    window.addEventListener("video-unmuted", stopNoise);
+    return () => window.removeEventListener("video-unmuted", stopNoise);
+  }, []);
+
   // ── Audio engine ────────────────────────────────────────────────────
   const setupAudio = async () => {
     if (audioRef.current) return; // already initialised

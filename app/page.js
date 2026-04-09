@@ -1,7 +1,7 @@
 import HomeClient from "./home-client";
 
 export const metadata = {
-  title: "Frontend Developer, Creative Coder Portfolio",
+  title: "Creative technologist, Visual Artist — Martyna Chojnacka",
 };
 
 export default async function Page({ searchParams }) {

@@ -8,17 +8,21 @@ const MAX_VISIBLE = Math.floor(160 / LINE_H);
 
 export default function ScrollWords() {
   const searchParams = useSearchParams();
-  const words = searchParams.get("view") === "development" ? DEV_WORDS : WORDS;
+  const view = searchParams.get("view");
+  const words = view === "development" ? DEV_WORDS : WORDS;
   const [count, setCount] = useState(0);
 
   useEffect(() => {
+    if (!view) return;
     setCount(Math.min(Math.floor(window.scrollY / PX_PER_WORD), words.length));
     const onScroll = () => {
       setCount(Math.min(Math.floor(window.scrollY / PX_PER_WORD), words.length));
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [words]);
+  }, [view, words]);
+
+  if (!view) return null;
 
   const offset = Math.max(0, count - MAX_VISIBLE) * LINE_H;
 

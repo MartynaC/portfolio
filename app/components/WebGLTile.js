@@ -40,7 +40,7 @@ function makeFloat() {
   };
 }
 
-export default function WebGLTile({ src, src2, alt, className, style, title, description, stack, role, video, gif, externalLink, date }) {
+export default function WebGLTile({ src, src2, alt, className, style, title, description, stack, role, video, gif, noAudio, externalLink, date }) {
   const isMobile = useIsMobile();
   const wrapperRef   = useRef(null);
   const boxRef       = useRef(null);
@@ -255,12 +255,14 @@ export default function WebGLTile({ src, src2, alt, className, style, title, des
       </button>
 
       {/* Mute / Unmute */}
+      {!noAudio && (
       <button
         onClick={() => {
           const el = portalVideoRef.current;
           if (!el) return;
           el.muted = !el.muted;
           setVidMuted(el.muted);
+          if (!el.muted) window.dispatchEvent(new CustomEvent("video-unmuted"));
         }}
         style={{ background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 1, display: "flex", alignItems: "center" }}
       >
@@ -280,6 +282,7 @@ export default function WebGLTile({ src, src2, alt, className, style, title, des
           </svg>
         )}
       </button>
+      )}
 
       {/* Timeline */}
       <input
@@ -420,6 +423,7 @@ export default function WebGLTile({ src, src2, alt, className, style, title, des
               zIndex: 9998,
               background: "rgba(202,49,66,0.45)",
               cursor: "pointer",
+              WebkitTapHighlightColor: "transparent",
             }}
           />
 
@@ -433,11 +437,13 @@ export default function WebGLTile({ src, src2, alt, className, style, title, des
               zIndex: 10000,
               background: "none",
               border: "none",
+              outline: "none",
               color: "#fff",
               fontSize: "2rem",
               lineHeight: 1,
               cursor: "pointer",
               padding: "0.25rem 0.5rem",
+              WebkitTapHighlightColor: "transparent",
             }}
             aria-label="Close"
           >
@@ -456,6 +462,7 @@ export default function WebGLTile({ src, src2, alt, className, style, title, des
               perspective: "3000px",
               "--wt-depth": "260px",
               transform: "translate(-50%, -50%)",
+              WebkitTapHighlightColor: "transparent",
             }}
           >
           <div

@@ -137,6 +137,7 @@ function loadTexture(gl, src) {
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
       resolve(tex);
     };
+    img.crossOrigin = "anonymous";
     img.src = src;
   });
 }
