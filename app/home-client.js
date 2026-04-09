@@ -4,15 +4,20 @@ import Layout from "./components/layout";
 import GalleryArt from "./components/GalleryArt";
 import Gallery from "./components/Gallery";
 import TruncatedTetraCanvas from "./components/TruncatedTetraCanvas";
+import useIsMobile from "./hooks/useIsMobile";
 
 export default function HomePage({ showProjects, showDevelopment, showAbout, showContact }) {
+  const isMobile = useIsMobile();
+  const isHomePage = !showProjects && !showDevelopment && !showAbout && !showContact;
   return (
     <Layout>
-      <section className="front-page tetra-hero">
-        <TruncatedTetraCanvas />
-      </section>
+      {(!isMobile || isHomePage) && (
+        <section className="front-page tetra-hero">
+          <TruncatedTetraCanvas />
+        </section>
+      )}
 
-      <div className="row page-description home" />
+      {isHomePage && <div className="row page-description home" />}
 
       {showProjects && (
         <div className="container creative" style={{ paddingRight: "calc(var(--bs-gutter-x) * 0.5)" }}>

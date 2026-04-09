@@ -314,6 +314,7 @@ div.container.creative {
 /* homepage */
 
 section.tetra-hero {
+  border-bottom: 1px solid whitesmoke;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -448,7 +449,6 @@ div.row.page-description {
   div {
     padding: 0px;
   }
-  border-top: 1px solid whitesmoke;
   padding-top: 20px;
   margin-left: 20px;
   margin-top: 235px;
@@ -790,11 +790,12 @@ div.contact-page {
 
 
 @media only screen and (max-width: 768px) {
+
   p {padding-right: 10px;}
   .scrollable-content {
     position: relative;
     left: 0px;
-    top: 180px;
+    padding-top: 70px;
   }
   .navbar {
     top: 0px;
@@ -812,6 +813,7 @@ div.contact-page {
   .mobile-logo {
     max-height: 23px;
     margin-right: 10px;
+    margin-top: 4px;
   }
   canvas.logo-canvas {
     display: none;
@@ -820,6 +822,7 @@ div.contact-page {
     left:30px;
     top:10px;
     position: absolute;
+    z-index: 2;
    p {
     font-family: "Nunito Sans";
     font-size: 12px;
@@ -840,14 +843,25 @@ div.contact-page {
     padding-left: 0;
   }
   div.row.home.page-description {
-    border-top: 1px solid whitesmoke;
     margin-left: 30px;
   }
   section.front-page.tetra-hero {
+    border-bottom: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 50px;
     min-height: unset;
-    max-height: 20vh;
+    height: auto;
+    z-index: 1;
     canvas {
-      width: 80% !important;
+      width: 90% !important;
+    }
+    .tetra-controls {
+      bottom: 0;
+      padding: 8px 16px 8px 28px;
+      /* border-top: 1px solid rgba(245, 245, 245, 0.25); */
     }
   }
   div.row.home.page-description {

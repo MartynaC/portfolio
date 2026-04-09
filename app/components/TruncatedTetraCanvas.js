@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import useIsMobile from "../hooks/useIsMobile";
 
 // ── Geometry ─────────────────────────────────────────────────────────
 const V = [
@@ -196,15 +197,21 @@ class BrownNoiseProcessor extends AudioWorkletProcessor {
 registerProcessor('brown-noise', BrownNoiseProcessor);
 `;
 
+// ── Haptics ───────────────────────────────────────────────────────────
+const haptic = (ms) => {
+  if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate(ms);
+};
+
 // ── Component ─────────────────────────────────────────────────────────
 // Files to adjust this component:
 //   app/components/TruncatedTetraCanvas.js  — shaders, geometry, animation params, audio
 //   app/globals.scss                        — .tetra-hero sizing / positioning
 //
 // Audio mapping:
-//   mouse X  →  filter cutoff frequency  (left = deep ~80 Hz, right = bright ~2400 Hz)
-//   mouse Y  →  filter resonance / Q     (bottom = flat, top = resonant)
+//   touch/mouse X  →  filter cutoff frequency  (left = deep ~80 Hz, right = bright ~2400 Hz)
+//   touch/mouse Y  →  filter resonance / Q     (bottom = flat, top = resonant)
 export default function TruncatedTetraCanvas() {
+  const isMobile   = useIsMobile();
   const canvasRef  = useRef(null);
   const mouseRef   = useRef([0, 0]);
   const scrollRef  = useRef(0);
@@ -258,11 +265,13 @@ export default function TruncatedTetraCanvas() {
       gain.gain.setTargetAtTime(0.6, ctx.currentTime, 0.1);
       playingRef.current = true;
       setIsPlaying(true);
+      haptic(20);
     } else {
       gain.gain.cancelScheduledValues(ctx.currentTime);
       gain.gain.setTargetAtTime(0, ctx.currentTime, 0.15);
       playingRef.current = false;
       setIsPlaying(false);
+      haptic(10);
     }
   };
 
@@ -441,6 +450,7 @@ export default function TruncatedTetraCanvas() {
     dragRef.current.rotY += t * (0.4 + sc * 0.5);
     canvasRef.current.setPointerCapture(e.pointerId);
     canvasRef.current.style.cursor = "grabbing";
+    haptic(15);
   };
 
   const onPointerMove = (e) => {
@@ -451,7 +461,7 @@ export default function TruncatedTetraCanvas() {
     dragRef.current.rotX -= dy * 0.01;
     dragRef.current.lastX = e.clientX;
     dragRef.current.lastY = e.clientY;
-    // During drag, map pointer position to audio too
+    // Map pointer position to audio during drag (works for both mouse and touch)
     const r = canvasRef.current.getBoundingClientRect();
     mouseRef.current = [
        ((e.clientX - r.left) / r.width  - 0.5) * 2,
@@ -460,12 +470,14 @@ export default function TruncatedTetraCanvas() {
   };
 
   const onPointerUp = () => {
+    if (!canvasRef.current) return;
     dragRef.current.active = false;
     const t = performance.now() / 1000;
     const sc = scrollRef.current;
     dragRef.current.rotY -= t * (0.4 + sc * 0.5);
     mouseRef.current = [0, 0];
     canvasRef.current.style.cursor = "grab";
+    haptic(8);
   };
 
   // ── Render ──────────────────────────────────────────────────────────
@@ -473,7 +485,14 @@ export default function TruncatedTetraCanvas() {
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem", width: "100%" }}>
       <canvas
         ref={canvasRef}
-        style={{ width: "40%", aspectRatio: "1", display: "block", cursor: "grab" }}
+        style={{
+          width: "40%",
+          aspectRatio: "1",
+          display: "block",
+          cursor: "grab",
+          touchAction: "none",
+          userSelect: "none",
+        }}
         onMouseMove={onMove}
         onMouseLeave={() => { if (!dragRef.current.active) mouseRef.current = [0, 0]; }}
         onPointerDown={onPointerDown}
@@ -500,7 +519,7 @@ export default function TruncatedTetraCanvas() {
           )}
         </button>
         <span style={{ fontSize: "11px", opacity: 0.35, letterSpacing: "0.04em", paddingRight: "calc(var(--bs-gutter-x) * 0.5)" }}>
-          move cursor to shape pitch &amp; resonance
+          {isMobile ? "drag to rotate & shape sound" : "move cursor to shape pitch & resonance"}
         </span>
       </div>
     </div>
