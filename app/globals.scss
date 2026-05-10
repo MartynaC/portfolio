@@ -646,7 +646,7 @@ div.gradient-making {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   box-sizing: border-box;
 
   .wt-stack {
@@ -670,6 +670,16 @@ div.gradient-making {
     margin-bottom: 8px;
     display: block;
     &:hover { text-decoration: underline; }
+  }
+
+  .wt-collaborators {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+    color: whitesmoke;
+    margin-bottom: 10px;
   }
 
   .wt-date {
@@ -700,7 +710,7 @@ div.gradient-making {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   box-sizing: border-box;
 
   h3 {
@@ -721,10 +731,7 @@ div.gradient-making {
     letter-spacing: 0.5px;
     color: whitesmoke;
     margin-bottom: 6px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 8;
-    -webkit-box-orient: vertical;
+    overflow: visible;
   }
 }
 

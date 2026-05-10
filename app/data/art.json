@@ -13,7 +13,8 @@
     "video": "https://media.martynachojnacka.com/videos/enantiodromia_final.mp4#t=20",
     "gif": "",
     "externalLink": "",
-    "date": "2025"
+    "date": "MaHalla, Berlin New Media Week, 2025, Statek Kultury, Zielona Góra 2025",
+    "collaborators": "Timothy Isherwood aka sirosir - sound design, music composition"
   },
   {
     "id": 6,
@@ -31,7 +32,8 @@
     "video": "https://media.martynachojnacka.com/videos/moving_others_video.mp4",
     "gif": "",
     "externalLink": "https://www.perypezyeurbane.org/project/movingothers/",
-    "date": "2025"
+    "date": "UferStudios Berlin, 2025",
+    "collaborators": "Perypezye Urbane - concept, choreography, performance, Enu - sound design, music composition, Maya Joseph - dancer "
   },
   {
     "id": 2,
@@ -49,7 +51,8 @@
     "video": "https://media.martynachojnacka.com/videos/mother_-_trailer_official (1080p).mp4",
     "gif": "",
     "externalLink": "https://www.mother.dance/",
-    "date": "2025"
+    "date": "Ufer Studios Berlin, 2024, Venere in Teatro, Venice 2024, BASE Milano 2025, Teatr KTO Kraków 2025, Festival Par Chi Crea, Sofia 2025, Gallus Theatre, Frankfurt 2026",
+    "collaborators": ""
   },
   {
     "id": 4,
@@ -66,7 +69,8 @@
     "video": "",
     "gif": "",
     "externalLink": "",
-    "date": "2025"
+    "date": "Żeromski Theatre in Kielce,2025",
+    "collaborators": "Agnieszka Jakimiak i Mateusz Atman - directors, Twix - sound design, music composition, Nina Sakowska - costume design, Theatre's actors and team"
   },
   {
     "id": 8,
@@ -83,7 +87,8 @@
     "gif": "",
     "noAudio": true,
     "externalLink": "",
-    "date": "Spatif Club Warsaw, December 2022 / Constant development"
+    "date": "Spatif Club Warsaw, December 2022 / Panke Gallery Berlin, February 2024",
+    "collaborators": "Teoniki Rożynek - music composition, sound design"
   },
   {
     "id": 5,
@@ -99,7 +104,8 @@
     "video": "https://media.martynachojnacka.com/videos/galaktyka.mp4",
     "gif": "",
     "externalLink": "",
-    "date": "Uroczysko Festival / Constant development since 2020"
+    "date": "Uroczysko Festival / Constant development since 2020",
+    "collaborators": "Adrian Cognac - technical and conceptual collaborator"
   },
   {
     "id": 1,
@@ -115,7 +121,8 @@
     "video": "https://media.martynachojnacka.com/videos/msn.mp4",
     "gif": "",
     "externalLink": "https://artmuseum.pl/en/events/sonic-memories-a-knock-a-boom-a-song-sonics-scenics",
-    "date": "2025"
+    "date": "MSN Museum of Modern Art, Warsaw, 2025",
+    "collaborators": "Teoniki Rożynek - music composition, sound design, live performance"
   },
   {
     "id": 7,
@@ -132,7 +139,8 @@
     "gif": "",
     "noAudio": true,
     "externalLink": "https://www.youtube.com/watch?v=Fz1n9oj3VnY&t=1272s",
-    "date": "Mieczysław Karłowicz Philharmonic in Szczecin"
+    "date": "Mieczysław Karłowicz Philharmonic in Szczecin",
+    "collaborators": "Teoniki Rożynek - music composition, sound design, Jakub Janicki - sound design, music composition, Szczecin Philharmonic Orchestra"
   },
   {
     "id": 9,
@@ -197,7 +205,8 @@
     "video": "https://media.martynachojnacka.com/videos/kondensator.mp4",
     "gif": "",
     "externalLink": "",
-    "date": "Patchlab Festival Kraków · Vorspiel CTM & Transmediale Berlin · Sanatorium Dźwięku Sokołowsko · Revive Festival Warsaw"
+    "date": "Patchlab Festival Kraków · Vorspiel CTM & Transmediale Berlin · Sanatorium Dźwięku Sokołowsko · Revive Festival Warsaw",
+    "collaborators": "Jakub Janicki, Bartłomiej Chmara - music composition, sound design, live performance"
   },
   {
     "id": 13,
@@ -214,7 +223,8 @@
     "gif": "",
     "noAudio": true,
     "externalLink": "",
-    "date": "Spatif Club Warsaw · JazzJantar Festival Gdańsk · Świetlica Krytyki Politycznej Warsaw"
+    "date": "Spatif Club Warsaw · JazzJantar Festival Gdańsk · Świetlica Krytyki Politycznej Warsaw",
+    "collaborators": "Joanna Duda - music composition, sound design, live performance"
   },
   {
     "id": 14,
@@ -230,7 +240,8 @@
     "video": "",
     "gif": "",
     "externalLink": "",
-    "date": ""
+    "date": "Spatif Club Warsaw, December 2022",
+    "collaborators": "Teoniki Rożynek - music composition, sound design"
   },
   {
     "id": 15,
@@ -262,7 +273,8 @@
     "video": "https://media.martynachojnacka.com/videos/computer_science.mp4",
     "gif": "",
     "externalLink": "https://vimeo.com/managehttps://media.martynachojnacka.com/videos/221449408",
-    "date": "2017"
+    "date": "2017",
+    "collaborators": "Krzysztof Kurpisz - technical and conceptual collaborator, ER4SE - music composition, sound design"
   },
   {
     "id": 16,
@@ -279,6 +291,7 @@
     "gif": "",
     "noAudio": true,
     "externalLink": "",
-    "date": "HT NFT Gallery opening 2022 · Thomas Schumacher VJ Set 2022"
+    "date": "HT NFT Gallery opening 2022 · Thomas Schumacher VJ Set 2022",
+    "collaborators": "Adrian Cognac - technical and conceptual collaborator"
   }
 ]

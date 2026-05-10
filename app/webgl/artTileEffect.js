@@ -124,6 +124,11 @@ function createProgram(gl) {
   return prog;
 }
 
+function toProxiedSrc(src) {
+  if (!src || src.startsWith("/") || src.startsWith("data:")) return src;
+  return `/_next/image?url=${encodeURIComponent(src)}&w=1080&q=75`;
+}
+
 function loadTexture(gl, src) {
   return new Promise((resolve) => {
     const tex = gl.createTexture();
@@ -137,8 +142,7 @@ function loadTexture(gl, src) {
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
       resolve(tex);
     };
-    img.crossOrigin = "anonymous";
-    img.src = src;
+    img.src = toProxiedSrc(src);
   });
 }
 

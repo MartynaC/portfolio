@@ -40,7 +40,7 @@ function makeFloat() {
   };
 }
 
-export default function WebGLTile({ src, src2, alt, className, style, title, description, stack, role, video, gif, noAudio, externalLink, date }) {
+export default function WebGLTile({ src, src2, alt, className, style, title, description, stack, role, video, gif, noAudio, externalLink, date, collaborators }) {
   const isMobile = useIsMobile();
   const wrapperRef   = useRef(null);
   const boxRef       = useRef(null);
@@ -337,6 +337,7 @@ export default function WebGLTile({ src, src2, alt, className, style, title, des
       <div className="wt-face wt-right">
         <div className="wt-right-content">
           {stack && <p className="wt-stack">&#91; {stack} &#93;</p>}
+          {collaborators && <p className="wt-collaborators">&#91; {collaborators} &#93;</p>}
           {externalLink && <a href={externalLink} target="_blank" rel="noreferrer" onPointerDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()}>{externalLink}</a>}
           {date && <p className="wt-date">{date}</p>}
         </div>
@@ -402,6 +403,7 @@ export default function WebGLTile({ src, src2, alt, className, style, title, des
             {description && <p style={{ marginBottom: "0.75rem", opacity: 0.85 }}>{description}</p>}
             {stack && <p style={{ marginBottom: "0.5rem", opacity: 0.65, fontSize: "0.85em" }}>{stack}</p>}
             {role && <p style={{ marginBottom: "0.5rem", opacity: 0.65, fontSize: "0.85em" }}>{role}</p>}
+            {collaborators && <p style={{ marginBottom: "0.5rem", opacity: 0.65, fontSize: "0.85em" }}>[ {collaborators} ]</p>}
             {date && <p style={{ marginBottom: "0.5rem", opacity: 0.5, fontSize: "0.8em" }}>{date}</p>}
             {externalLink && (
               <a href={externalLink} target="_blank" rel="noreferrer" style={{ color: "#fff", fontSize: "0.8em" }}>
@@ -504,6 +506,7 @@ export default function WebGLTile({ src, src2, alt, className, style, title, des
             <div className="wt-face wt-right">
               <div className="wt-right-content">
                 {stack && <p className="wt-stack">&#91; {stack} &#93;</p>}
+                {collaborators && <p className="wt-collaborators">&#91; {collaborators} &#93;</p>}
                 {externalLink && <a href={externalLink} target="_blank" rel="noreferrer" onPointerDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()}>{externalLink}</a>}
                 {date && <p className="wt-date">{date}</p>}
               </div>
