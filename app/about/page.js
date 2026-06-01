@@ -9,13 +9,20 @@ export default function AboutPage() {
         <div className="row row page-description">
           <div className="col-md-12">
             <p>
-              Martyna Chojnacka is a Berlin-based programmer and creative coder with over ten years of experience building software — from web applications and digital products to interactive installations and physical computing systems. She has worked as a freelancer and within digital studios, developing across the full stack for clients and institutions alike.
+              I work with musicians, theatres, and collectives — building live visual systems, installations, and real-time responses to sound and movement. 
             </p>
             <p>
-              Alongside her programming practice, Martyna holds a diploma in Creative Coding (Warsaw, 2022) and has consistently operated at the intersection of code and art — building reactive video installations, kinetic sculptures, and real-time audiovisual systems exhibited at venues including the Museum of Modern Art Warsaw, the Szczecin Philharmonic, TEDx Warsaw, as well as festivals such as Unsound, Transmediale, and Berlin New Media Week 2025.
+             A lot of my recent work starts with travel — field research, recording, absorbing a place — and ends up on stage as generative audiovisual performance.
+             </p>
+             <p>
+             I'm most drawn to collaboration with electronic musicians, and to the specific tension of building systems that have to work live, in front of people, in real time.
             </p>
+            <p>I work with code the way others work with material — building systems that respond, generate, and sometimes fail in interesting ways. My practice spans physical computing, machine learning, and real-time audiovisual performance, developed mostly in collaboration with musicians, theatres, and collectives. </p>
             <p>
-              Currently, she is deepening her expertise in data science, machine learning, and AI through the Le Wagon bootcamp, while already applying AI in artistic contexts — most recently in The Mother Project, a touring performance piece using real-time AI video generation and motion-responsive systems. She also teaches creative coding at SWPS University in Warsaw, extending her practice into education and mentorship.
+              I teach Creative Coding at SWPS University in Warsaw, and give workshops and talks on generative art, physical computing, and creative uses of technology. 
+              </p>
+              <p>
+              I'm interested in AI as a medium for exploration rather than a productivity tool — something to work with, push against, and misuse deliberately.
             </p>
           </div>
         </div>
