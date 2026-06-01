@@ -2,8 +2,15 @@
 
 import React, { useRef, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import ScrollWords from "./ScrollWords";
+
+function ScrollWordsConditional() {
+  const params = useSearchParams();
+  const view = params.get("view");
+  if (view === "random" || view === "about") return null;
+  return <ScrollWords />;
+}
 
 export default function Navbar() {
   const canvasRef = useRef(null);
@@ -58,6 +65,9 @@ export default function Navbar() {
 
       <ul className="main-menu">
         <li className="list-item">
+          <Link href="/?view=random">ARTWORKS</Link>
+        </li>
+        <li className="list-item">
           <Link href="/?view=projects">PROJECTS</Link>
         </li>
         <li className="list-item">
@@ -66,13 +76,10 @@ export default function Navbar() {
         <li className="list-item">
           <Link href="/?view=contact">CONTACT</Link>
         </li>
-        <li className="list-item" style={{ fontSize: "0.7em" }}>
-          <Link href="/?view=development">web dev archive</Link>
-        </li>
       </ul>
 
       <Suspense fallback={null}>
-        <ScrollWords />
+        <ScrollWordsConditional />
       </Suspense>
 
       <p className="sticky-bottom">

@@ -735,6 +735,24 @@ div.gradient-making {
   }
 }
 
+/* RANDOM GALLERY */
+
+.gallery-random-grid {
+  columns: 4;
+  column-gap: 0;
+
+  img, video {
+    display: block;
+    width: 100%;
+    height: auto;
+    break-inside: avoid;
+  }
+
+  @media (max-width: 768px) {
+    columns: 2;
+  }
+}
+
 /* VIDEO WALL */
 
 .video-wall {

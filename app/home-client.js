@@ -14,7 +14,7 @@ export default function HomePage({ showProjects, showDevelopment, showAbout, sho
     <Layout>
       {(!isMobile || isHomePage) && (
         <section className="front-page tetra-hero">
-          <TruncatedTetraCanvas />
+          <TruncatedTetraCanvas view={showAbout ? "about" : showProjects ? "projects" : showDevelopment ? "development" : showContact ? "contact" : showRandom ? "random" : "home"} />
         </section>
       )}
 
@@ -43,23 +43,46 @@ export default function HomePage({ showProjects, showDevelopment, showAbout, sho
           <div className="row page-description" style={{ marginTop: 0, marginLeft: 0, borderTop: "none", paddingRight: "calc(var(--bs-gutter-x) * 0.5)" }}>
             <div className="col-md-12">
               <p>
-                I work with musicians, theatres, and collectives — building live visual systems, installations, and real-time responses to sound and movement.
-              </p>
+               I work with code as material — building systems that respond, generate, and sometimes fail in interesting ways. My practice spans physical computing, machine learning, and real-time audiovisual performance, developed mostly in collaboration with musicians, theatres, and collectives. A lot of my work starts with travel — absorbing a place, recording it — and ends up on stage as generative live visuals.
+               </p>
               <p>
-                A lot of my recent work starts with travel — field research, recording, absorbing a place — and ends up on stage as generative audiovisual performance.
+                I'm most drawn to collaboration with musicians, dancers, performers, and to the specific tension of building systems that have to work live, in front of people, in real time.
               </p>
-              <p>
-                I'm most drawn to collaboration with electronic musicians, and to the specific tension of building systems that have to work live, in front of people, in real time.
-              </p>
-              <p>I work with code the way others work with material — building systems that respond, generate, and sometimes fail in interesting ways. My practice spans physical computing, machine learning, and real-time audiovisual performance, developed mostly in collaboration with musicians, theatres, and collectives.</p>
               <p>
                 I teach Creative Coding at SWPS University in Warsaw, and give workshops and talks on generative art, physical computing, and creative uses of technology.
-              </p>
-              <p>
                 I'm interested in AI as a medium for exploration rather than a productivity tool — something to work with, push against, and misuse deliberately.
               </p>
+              <p>I completed the Le Wagon Data Science, ML & AI bootcamp in Berlin in 2026, adding machine learning pipelines, LLMs, and Python-based data work to a toolkit that already included TouchDesigner, Max MSP, Arduino, WebGL, Processing and many others. 
+                </p>
+                <p>My path here started with a degree in Sinology and a semester in Chongqing. Learning a language from scratch — its logic, its structure, the way it encodes the world differently — turned out to be good preparation for code. Both reward obsessive learning, constant updating, and comfort with never being fully fluent.</p>
             </div>
           </div>
+      <div className="row" style={{ marginTop: "2rem" }}>
+  <div className="col-md-6">
+    <p><strong>Upcoming</strong></p>
+    <div>5 June 2026 — <em>AI as a Brainstorming Partner, AI as a Muse</em> — ZID Theater, Amsterdam</div>
+    <div>9 June 2026 — Creative Flip Conference — Talk on <em>M.oving O.thers</em>, Brussels</div>
+    <div>November 2026 — Audiovisual concert — Ignis, Studio Koncertowe Polskiego Radia im. Witolda Lutosławskiego, Warsaw</div>
+    <div>2026/2027 — <em>Dancing the Mask</em> — Interactive installation advocating for the repatriation of an indigenous Kwakwaka'wakw mask, Victoria BC & Berlin</div>
+  </div>
+  <div className="col-md-6">
+    <p><strong>Selected Recent</strong></p>
+    <div>2026 — <em>Mother</em> — Gallus Theatre, Frankfurt</div>
+    <div>2025 — <em>Enantiodromia</em> — Berlin New Media Week, MaHalla</div>
+    <div>2025 — <em>Mother</em> — BASE, Milan</div>
+    <div>2025 — <em>The Doors of Perception</em> — Stefan Żeromski Theatre, Kielce</div>
+    <div>2025 — <em>Amulet</em> — AV concert w/ Teoniki Rożynek, Museum of Modern Art Warsaw</div>
+    <div>2025 — <em>The Blob</em> — ARTINTELL, Wrocław</div>
+    <div>2024 — <em>Mother</em> — Uferstudios, Berlin / Venere in Teatro, Venice</div>
+    <div>2024 — <em>Positive Disintegration</em> — AV concert w/ Teoniki Rożynek, Panke Gallery Berlin</div>
+    <div>2024 — <em>Night Cultural Trail</em> — live AV, CKN Centrala, Gorzów</div>
+    <div>2024 — <em>The Blob</em> — ARTINTELL, Warsaw</div>
+    <div>2023 — <em>Positive Disintegration</em> — AV concert w/ Teoniki Rożynek, LYNC & CO Berlin</div>
+    <div>2022 — <em>Run with me through the forest paths</em> — AV w/ Teoniki Rożynek, SPATiF Warsaw</div>
+    <div>2022 — live AV w/ Joanna Duda Solo — Warsaw Political Criticism Community Centre</div>
+    <div>2022 — <em>Orange Warsaw Festival</em> — live AV performance</div>
+  </div>
+</div>
         </div>
       )}
 

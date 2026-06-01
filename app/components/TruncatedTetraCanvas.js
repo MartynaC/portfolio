@@ -33,6 +33,13 @@ const VIDEO_SRCS = [
   "https://media.martynachojnacka.com/videos/warstwyMandel_2LOOP.mp4",
 ];
 
+const ABOUT_IMAGE_SRCS = [
+  "/images/about/IMG_2173.JPG",
+  "/images/about/image_6487327.JPG",
+  "/images/about/martyna.png",
+  "/images/about/martynachojnacka%20(2).png",
+];
+
 
 function cross(a, b) {
   return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
@@ -210,12 +217,13 @@ const haptic = (ms) => {
 // Audio mapping:
 //   touch/mouse X  →  filter cutoff frequency  (left = deep ~80 Hz, right = bright ~2400 Hz)
 //   touch/mouse Y  →  filter resonance / Q     (bottom = flat, top = resonant)
-export default function TruncatedTetraCanvas() {
+export default function TruncatedTetraCanvas({ view = "home" }) {
   const isMobile   = useIsMobile();
   const canvasRef  = useRef(null);
   const mouseRef   = useRef([0, 0]);
   const scrollRef  = useRef(0);
   const dragRef    = useRef({ active: false, lastX: 0, lastY: 0, rotX: 0, rotY: 0 });
+  const mediaRef   = useRef([]);
 
   // Audio refs — kept stable across renders
   const audioRef   = useRef(null);   // { ctx, gain, filter, playing }
@@ -240,6 +248,29 @@ export default function TruncatedTetraCanvas() {
     window.addEventListener("video-unmuted", stopNoise);
     return () => window.removeEventListener("video-unmuted", stopNoise);
   }, []);
+
+  // ── Swap media sources when view changes (skip first mount — WebGL effect handles it) ──
+  const viewMounted = useRef(false);
+  useEffect(() => {
+    if (!viewMounted.current) { viewMounted.current = true; return; }
+
+    mediaRef.current.forEach(m => {
+      if (m instanceof HTMLVideoElement) { m.pause(); m.src = ""; }
+    });
+
+    if (view === "about") {
+      mediaRef.current = ABOUT_IMAGE_SRCS.map(src => {
+        const img = new Image(); img.crossOrigin = "anonymous"; img.src = src; return img;
+      });
+    } else {
+      mediaRef.current = VIDEO_SRCS.map(src => {
+        const v = document.createElement("video");
+        v.crossOrigin = "anonymous"; v.src = src; v.autoplay = true; v.loop = true; v.muted = true; v.playsInline = true;
+        v.play().catch(() => {});
+        return v;
+      });
+    }
+  }, [view]);
 
   // ── Audio engine ────────────────────────────────────────────────────
   const setupAudio = async () => {
@@ -336,15 +367,21 @@ export default function TruncatedTetraCanvas() {
     const hexBufs = hexFaces.map(f => ({ pos: buf(f.pos), nor: buf(f.nor), uv: buf(f.uv) }));
     const eBuf = buf(edgePts);
 
-    const videos = VIDEO_SRCS.map(src => {
-      const v = document.createElement("video");
-      v.crossOrigin = "anonymous";
-      v.src = src; v.autoplay = true; v.loop = true; v.muted = true; v.playsInline = true;
-      v.play().catch(() => {});
-      return v;
-    });
+    // Initialize media synchronously so frame 0 has sources ready
+    if (view === "about") {
+      mediaRef.current = ABOUT_IMAGE_SRCS.map(src => {
+        const img = new Image(); img.crossOrigin = "anonymous"; img.src = src; return img;
+      });
+    } else {
+      mediaRef.current = VIDEO_SRCS.map(src => {
+        const v = document.createElement("video");
+        v.crossOrigin = "anonymous"; v.src = src; v.autoplay = true; v.loop = true; v.muted = true; v.playsInline = true;
+        v.play().catch(() => {});
+        return v;
+      });
+    }
 
-    const textures = videos.map(() => {
+    const textures = HEX.map(() => {
       const tex = gl.createTexture();
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0,0,0,255]));
@@ -365,10 +402,13 @@ export default function TruncatedTetraCanvas() {
 
     let raf;
     const render = () => {
-      videos.forEach((v, i) => {
-        if (v.readyState >= v.HAVE_CURRENT_DATA) {
+      mediaRef.current.forEach((m, i) => {
+        const ready = m instanceof HTMLVideoElement
+          ? m.readyState >= m.HAVE_CURRENT_DATA
+          : m.complete && m.naturalWidth > 0;
+        if (ready) {
           gl.bindTexture(gl.TEXTURE_2D, textures[i]);
-          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, v);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, m);
         }
       });
 
@@ -440,7 +480,6 @@ export default function TruncatedTetraCanvas() {
       cancelAnimationFrame(raf);
       clearTimeout(resizeTimer);
       window.removeEventListener("resize", debouncedResize);
-      videos.forEach(v => { v.pause(); v.src = ""; });
     };
   }, []);
 
