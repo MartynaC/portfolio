@@ -18,7 +18,13 @@ export default function HomePage({ showProjects, showDevelopment, showAbout, sho
         </section>
       )}
 
-      {isHomePage && <div className="row page-description home" />}
+      {isHomePage && (
+        <div className="row page-description home">
+          <div className="col-md-11">
+
+          </div>
+        </div>
+      )}
 
       {showProjects && (
         <div className="container creative" style={{ paddingRight: "calc(var(--bs-gutter-x) * 0.5)" }}>

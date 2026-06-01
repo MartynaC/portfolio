@@ -10,6 +10,9 @@ export default function BottomNav() {
     <nav className="bottom-nav d-md-none">
       <ul>
         <li>
+          <Link href="/?view=random">Artworks</Link>
+        </li>
+        <li>
           <Link href="/?view=projects">Projects</Link>
         </li>
         <li>
