@@ -1,26 +1,14 @@
-import fs from "fs";
-import path from "path";
 import HomeClient from "./home-client";
+import { listRandomMedia } from "./lib/r2";
 
 export const metadata = {
   title: "Creative technologist, Visual Artist — Martyna Chojnacka",
 };
 
-const MEDIA_EXTS = new Set([".jpg", ".jpeg", ".png", ".gif", ".webp", ".mp4", ".mov", ".webm"]);
-
-function readMediaDir(folder) {
-  const dir = path.join(process.cwd(), "public", "images", folder);
-  try {
-    return fs.readdirSync(dir).filter((f) => MEDIA_EXTS.has(path.extname(f).toLowerCase()));
-  } catch {
-    return [];
-  }
-}
-
 export default async function Page({ searchParams }) {
   const params = await searchParams;
   const view = params?.view;
-  const randomImages = view === "random" ? readMediaDir("random") : [];
+  const randomImages = view === "random" ? await listRandomMedia() : [];
   return (
     <HomeClient
       showProjects={view === "projects"}

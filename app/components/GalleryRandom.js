@@ -10,7 +10,7 @@ export default function GalleryRandom({ images = [] }) {
   return (
     <div className="gallery-random-grid">
       {images.map((filename) => {
-        const src = `/images/random/${encodeURIComponent(filename)}`;
+        const src = `https://media.martynachojnacka.com/images/random/${encodeURIComponent(filename)}`;
         return isVideo(filename) ? (
           <video
             key={filename}
