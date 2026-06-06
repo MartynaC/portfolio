@@ -187,22 +187,6 @@ const mul = (a,b) => {
 };
 const nm3 = m => new Float32Array([m[0],m[1],m[2],m[4],m[5],m[6],m[8],m[9],m[10]]);
 
-// ── Audio worklet source (as a blob URL) ─────────────────────────────
-const WORKLET_CODE = `
-class BrownNoiseProcessor extends AudioWorkletProcessor {
-  constructor() { super(); this._lastOut = 0.0; }
-  process(inputs, outputs) {
-    const out = outputs[0][0];
-    for (let i = 0; i < out.length; i++) {
-      const white = Math.random() * 2 - 1;
-      this._lastOut = (this._lastOut + 0.02 * white) / 1.02;
-      out[i] = this._lastOut * 3.5;
-    }
-    return true;
-  }
-}
-registerProcessor('brown-noise', BrownNoiseProcessor);
-`;
 
 // ── Haptics ───────────────────────────────────────────────────────────
 const haptic = (ms) => {
@@ -274,33 +258,56 @@ export default function TruncatedTetraCanvas({ view = "home" }) {
 
   // ── Audio engine ────────────────────────────────────────────────────
   const setupAudio = async () => {
-    if (audioRef.current) return; // already initialised
+    if (audioRef.current) return;
 
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
-
-    const blob = new Blob([WORKLET_CODE], { type: "application/javascript" });
-    const url  = URL.createObjectURL(blob);
-    await ctx.audioWorklet.addModule(url);
-    URL.revokeObjectURL(url);
-
-    const source = new AudioWorkletNode(ctx, "brown-noise");
     const filter = ctx.createBiquadFilter();
     const gain   = ctx.createGain();
 
     filter.type            = "lowpass";
     filter.frequency.value = 400;
     filter.Q.value         = 1;
-    gain.gain.value        = 0; // start silent; fade in on play
+    gain.gain.value        = 0;
 
-    source.connect(filter);
+    if (ctx.audioWorklet) {
+      try {
+        await ctx.audioWorklet.addModule("/brown-noise-processor.js");
+        const source = new AudioWorkletNode(ctx, "brown-noise");
+        source.connect(filter);
+      } catch {
+        // AudioWorklet failed — fall through to ScriptProcessorNode
+        attachScriptProcessor(ctx, filter);
+      }
+    } else {
+      attachScriptProcessor(ctx, filter);
+    }
+
     filter.connect(gain);
     gain.connect(ctx.destination);
+    audioRef.current = { ctx, filter, gain };
+  };
 
-    audioRef.current = { ctx, source, filter, gain };
+  const attachScriptProcessor = (ctx, destination) => {
+    let lastOut = 0;
+    const processor = ctx.createScriptProcessor(4096, 0, 1);
+    processor.onaudioprocess = (e) => {
+      const out = e.outputBuffer.getChannelData(0);
+      for (let i = 0; i < out.length; i++) {
+        const white = Math.random() * 2 - 1;
+        lastOut = (lastOut + 0.02 * white) / 1.02;
+        out[i] = lastOut * 3.5;
+      }
+    };
+    processor.connect(destination);
   };
 
   const togglePlay = async () => {
-    await setupAudio();
+    try {
+      await setupAudio();
+    } catch {
+      return;
+    }
+    if (!audioRef.current) return;
     const { ctx, gain } = audioRef.current;
     if (ctx.state === "suspended") await ctx.resume();
 

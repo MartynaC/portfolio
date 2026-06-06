@@ -66,7 +66,7 @@ export default function HomePage({ showProjects, showDevelopment, showAbout, sho
       <div className="row" style={{ marginTop: "2rem" }}>
   <div className="col-md-6">
     <p><strong>Upcoming</strong></p>
-    <div>5 June 2026 — <em>AI as a Brainstorming Partner, AI as a Muse</em> — ZID Theater, Amsterdam</div>
+    <div>5 June 2026 — <em>AI as a Brainstorming Partner, AI as a Muse</em> — ZID Theater, Amsterdam</div>grbranch
     <div>9 June 2026 — Creative Flip Conference — Talk on <em>M.oving O.thers</em>, Brussels</div>
     <div>November 2026 — Audiovisual concert — Ignis, Studio Koncertowe Polskiego Radia im. Witolda Lutosławskiego, Warsaw</div>
     <div>2026/2027 — <em>Dancing the Mask</em> — Interactive installation advocating for the repatriation of an indigenous Kwakwaka'wakw mask, Victoria BC & Berlin</div>
