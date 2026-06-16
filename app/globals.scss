@@ -738,21 +738,28 @@ div.gradient-making {
 /* RANDOM GALLERY */
 
 .gallery-random-grid {
-  columns: 4;
+  display: flex;
+  align-items: flex-start;
   column-gap: 0;
+  isolation: isolate; // ensure z-index on tiles doesn't affect other elements
+
+  .gallery-column {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
 
   img, video {
     display: block;
     width: 100%;
     height: auto;
-    break-inside: avoid;
   }
 
   @media (max-width: 768px) {
-    columns: 2;
+    // COLS in JS needs to change to 2 on mobile
   }
 }
-
 
 /* VIDEO WALL */
 

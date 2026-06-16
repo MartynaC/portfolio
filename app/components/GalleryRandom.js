@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useRef, useState, useMemo } from "react";
 
 const VIDEO_EXTS = new Set([".mp4", ".mov", ".webm"]);
 const CDN = "https://media.martynachojnacka.com/images/random";
@@ -25,38 +26,81 @@ function buildList(images) {
   return result;
 }
 
+function LazyVideo({ src, eager }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || eager) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.src = src;
+          el.load();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [src, eager]);
+
+  return (
+    <video
+      ref={ref}
+      src={eager ? src : undefined}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload={eager ? "auto" : "none"}
+      style={{ display: "block", width: "100%", height: "auto" }}
+    />
+  );
+}
+
 export default function GalleryRandom({ images = [] }) {
-  const list = buildList(images);
+  const list = useMemo(() => buildList(images).sort(() => Math.random() - 0.5), [images]);
+  const [cols, setCols] = useState(0);
+
+  useEffect(() => {
+    const update = () => setCols(window.innerWidth <= 768 ? 2 : 4);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  if (cols === 0) return null;
+
+  const EAGER_ROWS = 3;
+  const columns = Array.from({ length: cols }, () => []);
+  list.forEach((item, i) => columns[i % cols].push({ ...item, rowIndex: Math.floor(i / cols) }));
+
   return (
     <div className="gallery-random-grid">
-      {list.map(({ filename, key }, i) => {
-        const src = `${CDN}/${encodeURIComponent(filename)}`;
-        if (isVideo(filename)) {
-          return (
-            <video
-              key={key}
-              src={src}
-              autoPlay
-              muted
-              loop
-              playsInline
-              style={{ display: "block", width: "100%", height: "auto" }}
-            />
-          );
-        }
-        return (
-          <Image
-            key={key}
-            src={src}
-            alt=""
-            width={0}
-            height={0}
-            sizes="25vw"
-            priority={i < PRIORITY_COUNT}
-            style={{ width: "100%", height: "auto", display: "block" }}
-          />
-        );
-      })}
+      {columns.map((col, colIdx) => (
+        <div key={colIdx} className="gallery-column">
+          {col.map(({ filename, key, rowIndex }) => {
+            const src = `${CDN}/${encodeURIComponent(filename)}`;
+            if (isVideo(filename)) {
+              return <LazyVideo key={key} src={src} eager={rowIndex < EAGER_ROWS} />;
+            }
+            return (
+              <Image
+                key={key}
+                src={src}
+                alt=""
+                width={0}
+                height={0}
+                sizes="25vw"
+                priority={rowIndex < 2}
+                style={{ width: "100%", height: "auto", display: "block" }}
+              />
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
 }

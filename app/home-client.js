@@ -39,10 +39,14 @@ export default function HomePage({ showProjects, showDevelopment, showAbout, sho
       )}
 
       {showRandom && (
-        <div className="container creative" style={{ paddingLeft: 0, paddingRight: 0 }}>
-          <GalleryRandom images={randomImages} />
+      <div className="container creative" style={{ paddingLeft: 0, paddingRight: 0 }}>
+        <div className="row">
+          <div className="col-12" style={{ padding: 0 }}>
+            <GalleryRandom images={randomImages} />
+          </div>
         </div>
-      )}
+      </div>
+    )}
 
       {showAbout && (
         <div className="container about-page">
